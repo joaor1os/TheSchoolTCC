@@ -21,7 +21,7 @@ class Professor {
         $stmt->bind_param("isi", $this->id_funcionario, $this->formacao_professor, $this->disciplina_professor);
     
         if ($stmt->execute()) {
-            echo "Professor cadastrado com sucesso!";
+            echo " Professor cadastrado com sucesso!";
         } else {
             echo "Erro ao cadastrar professor: " . $stmt->error;
         }

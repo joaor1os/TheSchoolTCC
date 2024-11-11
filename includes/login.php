@@ -5,31 +5,41 @@ include_once 'db.php'; // Inclui a classe Database
 $db = new Database(); // Instancia a classe Database
 $conn = $db->conn; // Obtém a conexão
 
+// Redireciona se o usuário já está logado e o tipo de usuário foi definido
+if (isset($_SESSION['user_id']) && isset($_SESSION['user_type'])) {
+    if ($_SESSION['user_type'] === 'professor') {
+        header("Location: professor_home.php");
+        exit();
+    } elseif ($_SESSION['user_type'] === 'aluno') {
+        header("Location: aluno_home.php");
+        exit();
+    }
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Obter os dados enviados pelo formulário
     $email = $_POST['email'];
     $senha = $_POST['senha'];
 
-    // Verificar se o usuário é um funcionário do tipo 2
-    $query_funcionario = "SELECT id_funcionario, senha FROM funcionario_instituicao WHERE email = ? AND tipo_funcionario = 2";
-    $stmt_funcionario = $conn->prepare($query_funcionario);
-    $stmt_funcionario->bind_param("s", $email);
-    $stmt_funcionario->execute();
-    $result_funcionario = $stmt_funcionario->get_result();
+    // Verifica se o usuário é um professor
+    $query_professor = "SELECT id_funcionario, senha FROM funcionario_instituicao WHERE email = ? AND tipo_funcionario = 2";
+    $stmt_professor = $conn->prepare($query_professor);
+    $stmt_professor->bind_param("s", $email);
+    $stmt_professor->execute();
+    $result_professor = $stmt_professor->get_result();
 
-    if ($result_funcionario->num_rows > 0) {
-        $row_funcionario = $result_funcionario->fetch_assoc();
-        // Verifica a senha usando password_verify
-        if (password_verify($senha, $row_funcionario['senha'])) {
-            // Funcionário autenticado
-            $_SESSION['user_id'] = $row_funcionario['id_funcionario'];
-            header("Location: pagina_funcionario.php"); // Redireciona para a página do funcionário
+    if ($result_professor->num_rows > 0) {
+        $row_professor = $result_professor->fetch_assoc();
+        if (password_verify($senha, $row_professor['senha'])) {
+            // Professor autenticado
+            $_SESSION['user_id'] = $row_professor['id_funcionario'];
+            $_SESSION['user_type'] = 'professor';
+            header("Location: professor_home.php");
             exit();
         } else {
             $login_error = "Email ou senha incorretos.";
         }
     } else {
-        // Verificar se o usuário é um aluno
+        // Verifica se o usuário é um aluno
         $query_aluno = "SELECT matricula_aluno, senha FROM aluno WHERE email = ?";
         $stmt_aluno = $conn->prepare($query_aluno);
         $stmt_aluno->bind_param("s", $email);
@@ -38,11 +48,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if ($result_aluno->num_rows > 0) {
             $row_aluno = $result_aluno->fetch_assoc();
-            // Verifica a senha usando password_verify
             if (password_verify($senha, $row_aluno['senha'])) {
                 // Aluno autenticado
                 $_SESSION['user_id'] = $row_aluno['matricula_aluno'];
-                header("Location: pagina_aluno.php"); // Redireciona para a página do aluno
+                $_SESSION['user_type'] = 'aluno';
+                header("Location: aluno_home.php");
                 exit();
             } else {
                 $login_error = "Email ou senha incorretos.";
@@ -58,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Login Acadêmico</title>
 </head>
 <body>
     <h2>Login Acadêmico</h2>

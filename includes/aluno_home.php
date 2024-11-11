@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../includes/login_instituicional.php"); 
+    exit();
+}
+
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>

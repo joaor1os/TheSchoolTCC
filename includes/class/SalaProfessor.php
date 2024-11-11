@@ -116,6 +116,32 @@ class SalaProfessor {
     }
 
 
+    
+    public function buscarSalasAtivasPorProfessor($professor_id) {
+        $query = "
+            SELECT s.id_sala, s.ano_sala, se.nome_serie
+            FROM salas s
+            JOIN sala_professor sp ON s.id_sala = sp.sala_sp
+            JOIN serie se ON s.serie_sala = se.id_serie
+            WHERE sp.professor_sp = ? AND s.ativa_sala = 1
+        ";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $professor_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        // Armazena os resultados em um array associativo
+        if ($result->num_rows > 0) {
+            return $result->fetch_all(MYSQLI_ASSOC);
+        } else {
+            return [];
+        }
+    }
+    
+
+    
+
     // Atualiza um professor em uma sala
     public function atualizarProfessorNaSala($id_sp, $professor_sp) {
         $query = "UPDATE sala_professor SET professor_sp = ? WHERE id_sp = ?";
