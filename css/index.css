@@ -1,0 +1,214 @@
+/* ================== Reset ================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* ================== Corpo e Layout ================== */
+body {
+    background-color: #f5f5f5; /* Cor neutra e suave para o fundo */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 16px;
+    color: #333; /* Texto com cor mais escura para contraste */
+}
+
+/* ================== Header ================== */
+header {
+    width: 100%;
+    padding: 30px 20px;
+    background-color: #f6f6f6; /* Verde moderno para um toque vibrante */
+    color: white;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    position: relative;
+    display: flex;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+}
+
+header p {
+    font-size: 1.2rem;
+    color: #e0e0e0; /* Texto secundário mais suave */
+}
+
+/* ================== Seção de Carrossel ================== */
+.carousel-inner {
+    max-height: 400px;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background-color: #fafafa;
+}
+
+/* ================== Seção de Últimas Notícias ================== */
+.latest-news {
+    background-color: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.1);
+    margin-top: 40px;
+}
+
+.latest-news h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.latest-news .news-item {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 20px;
+}
+
+.latest-news .news-item h3 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #555;
+}
+
+.latest-news .news-item p {
+    font-size: 1.1rem;
+    color: #777;
+    margin-top: 10px;
+}
+
+/* ================== Seção Como Chegar ================== */
+.how-to-get-there {
+    background-color: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.1);
+    margin-top: 40px;
+}
+
+.how-to-get-there h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.how-to-get-there p {
+    font-size: 1.1rem;
+    color: #777;
+    line-height: 1.6;
+    text-align: center;
+}
+
+/* ================== Rodapé ================== */
+footer {
+    background-color: #333; /* Cor escura para contraste com o restante da página */
+    color: white;
+    text-align: center;
+    padding: 30px 20px;
+    margin-top: auto;
+}
+
+footer p {
+    font-size: 1rem;
+    color: #e0e0e0;
+}
+
+/* ================== Estilo de Botões ================== */
+button {
+    background-color: #4CAF50; /* Verde vibrante */
+    color: white;
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+    display: block;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #45a049; /* Tom mais escuro do verde */
+}
+
+/* ================== Responsividade ================== */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2rem;
+    }
+
+    header p {
+        font-size: 1rem;
+    }
+
+    .carousel-inner {
+        max-height: 300px;
+    }
+
+    .latest-news, .how-to-get-there {
+        padding: 20px;
+    }
+
+    .latest-news h2, .how-to-get-there h2 {
+        font-size: 2rem;
+    }
+
+    .latest-news .news-item h3 {
+        font-size: 1.5rem;
+    }
+
+    button {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    .carousel-inner {
+        max-height: 250px;
+    }
+
+    .latest-news h2, .how-to-get-there h2 {
+        font-size: 1.8rem;
+    }
+
+    button {
+        padding: 10px 20px;
+    }
+}
+/* Estilo para ajustar a imagem do cabeçalho */
+header .logo {
+    max-width: 100px; /* Limita a largura da imagem */
+    height: auto; /* Mantém a proporção da imagem */
+}
+/* Ajustar imagens dentro do carrossel */
+.carousel-inner img {
+    width: 100%; /* Faz a imagem ocupar toda a largura do carrossel */
+    height: auto; /* Mantém a proporção da imagem */
+    object-fit: cover; /* A imagem cobre completamente a área sem distorcer */
+}
