@@ -7,7 +7,7 @@ async function fetchNews() {
     
     // Obtém a data de 7 dias atrás
     const pastDate = new Date();
-    pastDate.setDate(today.getDate() ); // Subtrai 7 dias da data atual
+    pastDate.setDate(today.getDate() -7); // Subtrai 7 dias da data atual
     const formattedPastDate = pastDate.toISOString().split('T')[0]; // Formata a data
 
     const url = `https://newsapi.org/v2/everything?q=educação OR educação OR escolas&from=${formattedPastDate}&to=${formattedDate}&sortBy=popularity&language=pt&apiKey=${apiKey}`;

@@ -72,33 +72,19 @@ if (isset($_SESSION['user_id']) && $_SESSION['user_type'] === 'professor') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dar Presença na Aula</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border: 1px solid #ddd;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-    </style>
+    <title>Registrar Presença</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/Presenca/confirmedPresenca.css">
 </head>
 <body>
-    <h1>Registrar Presença na Aula</h1>
+    <?php
+      
+        $dataAtual = date('d/m/Y');
+    ?>
 
-    <form method="POST" action="">
+    <h1>Registrar Presença na Aula - <?php echo $dataAtual; ?></h1>
+
+    <form method="POST">
         <table>
             <tr>
                 <th>Aluno</th>
@@ -119,11 +105,12 @@ if (isset($_SESSION['user_id']) && $_SESSION['user_type'] === 'professor') {
                 </tr>
             <?php endwhile; ?>
         </table>
-        <br>
-        <button type="submit">Registrar Presenças</button>
+        <button type="submit" class="btn">Registrar Presenças</button>
+        <a class="btn btn-secondary" href="professor_home.php">Voltar para a Home</a>
     </form>
 
-    <br>
-    <a href="professor_home.php">Voltar para a Home</a>
+    
+
 </body>
 </html>
+

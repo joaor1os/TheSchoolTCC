@@ -43,40 +43,56 @@ if (isset($_SESSION['user_id']) && $_SESSION['user_type'] === 'professor') {
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visualizar Aulas</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/Professor/viewAulas.css">
 </head>
 <body>
-    <h1>Aulas Dadas</h1>
+    <div class="container my-5">
+        <h1 class="text-center mb-4">Aulas Dadas</h1>
 
-    <?php if ($result_aulas->num_rows > 0) : ?>
-        <table border="1">
-            <tr>
-                <th>Data da Aula</th>
-                <th>Ano</th>
-                <th>Série</th>
-                <th>Disciplina</th>
-                <th>Ação</th>
-            </tr>
-            <?php while ($aula = $result_aulas->fetch_assoc()) : ?>
-                <?php 
-                    // Formatar a data
-                    $data_formatada = date('d/m/Y', strtotime($aula['data_aula']));
-                ?>
-                <tr>
-                    <td><?php echo $data_formatada; ?></td>
-                    <td><?php echo $aula['ano_sala']; ?></td>
-                    <td><?php echo $aula['nome_serie']; ?></td>
-                    <td><?php echo $aula['nome_disciplina']; ?></td>
-                    <td>
-                        <a href="ver_presencas.php?aula_id=<?php echo $aula['id_aula']; ?>&sala_id=<?php echo $sala_id; ?>"><button>Ver Presenças</button></a>
-                    </td>
-                </tr>
-            <?php endwhile; ?>
-        </table>
-    <?php else: ?>
-        <p>Nenhuma aula encontrada.</p>
-    <?php endif; ?>
+        <?php if ($result_aulas->num_rows > 0) : ?>
+            <table class="table table-bordered table-striped">
+                <thead class="table-dark">
+                    <tr>    
+                        <th>Data da Aula</th>
+                        <th>Ano</th>
+                        <th>Série</th>
+                        <th>Disciplina</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while ($aula = $result_aulas->fetch_assoc()) : ?>
+                        <?php 
+                            // Formatar a data
+                            $data_formatada = date('d/m/Y', strtotime($aula['data_aula']));
+                        ?>
+                        <tr>
+                            <td><?php echo $data_formatada; ?></td>
+                            <td><?php echo $aula['ano_sala']; ?></td>
+                            <td><?php echo $aula['nome_serie']; ?></td>
+                            <td><?php echo $aula['nome_disciplina']; ?></td>
+                            <td>
+                                <a href="ver_presencas.php?aula_id=<?php echo $aula['id_aula']; ?>&sala_id=<?php echo $sala_id; ?>">
+                                    <button class="btn btn-info">Ver Presenças</button>
+                                </a>
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
+        <?php else: ?>
+            <p class="text-center">Nenhuma aula encontrada.</p>
+        <?php endif; ?>
 
-    <a href="professor_home.php">Voltar para a Home</a>
+        <div class="text-center mt-4">
+            <a href="professor_home.php" class="btn btn-secondary">Voltar para a Home</a>
+        </div>
+    </div>
+
+  
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

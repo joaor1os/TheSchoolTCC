@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<<<<<<< HEAD
 
 <head>
     <meta charset="UTF-8">
@@ -27,7 +26,7 @@
                 <h2 class="mb-4">Bem-vindo à The School</h2>
                 <p class="mb-5">Acesse as áreas de login. Escolha abaixo o tipo de login que você deseja acessar.</p>
                 <div class="d-grid gap-2">
-                    <a href="includes/login.php" class="btn btn-primary btn-lg login-btn">Login Aluno</a>
+                    <a href="includes/login.php" class="btn btn-primary btn-lg login-btn">Login Aluno / Professor</a>
                     <a href="includes/login_institucional.php" class="btn btn-secondary btn-lg login-btn">Login Institucional</a>
                 </div>
             </div>
@@ -84,13 +83,4 @@
 
 </body>
 
-=======
-<head>
-</head>
-<body>
-<a href="includes/login.php">login Acadêmico</a>
-<br><br>
-<a href="includes/login_institucional.php">Login Institucional</a>
-</body>
->>>>>>> 987d6520ee9329409f685eed70eb524d45753122
 </html>

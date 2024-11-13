@@ -42,51 +42,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Gerenciar Colaboradores</title>
+    <link rel="stylesheet" href="../css/Colaborador/gerenciarFuncionario.css">
 </head>
 <body>
-    <h1>Gerenciar Colaboradores</h1>
+    <div class="container">
+        <h1>Gerenciar Colaboradores</h1>
 
-    <?php if ($mensagem) : ?>
-        <p><?= $mensagem ?></p>
-    <?php endif; ?>
+        <?php if ($mensagem) : ?>
+            <p class="message"><?= $mensagem ?></p>
+        <?php endif; ?>
 
-    <!-- Formulário de busca -->
-    <form method="POST" action="gerenciar_funcionario_instituicao.php">
-        <label for="busca">Nome ou CPF:</label>
-        <input type="text" id="busca" name="busca" required>
-        <button type="submit" name="buscar">Buscar</button>
-    </form>
+        <!-- Formulário de busca -->
+        <form method="POST" action="gerenciar_funcionario_instituicao.php">
+            <label for="busca">Nome ou CPF:</label>
+            <input type="text" id="busca" name="busca" required>
+            <button type="submit" name="buscar">Buscar</button>
+        </form>
 
-    <!-- Resultados da busca -->
-    <?php if (!empty($funcionarios)) : ?>
-        
-        <table border="1">
-            <tr>
-                <th>Nome</th>
-                <th>CPF</th>
-                <th>Email</th>
-                <th>Ações</th>
-            </tr>
-            <?php foreach ($funcionarios as $func) : ?>
-                <tr>
-                    <td><?= $func['nome_funcionario']; ?></td>
-                    <td><?= $func['cpf_funcionario']; ?></td>
-                    <td><?= $func['email']; ?></td>
-                    <td>
-                        <form method="POST" style="display:inline;">
-                            <input type="hidden" name="id_funcionario" value="<?= $func['id_funcionario']; ?>">
-                            <a href="editar_funcionario.php?id=<?= $func['id_funcionario']; ?>"><button type="button">Editar</button></a>
-                        </form>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </table>
-    <?php elseif (isset($_POST['buscar'])) : ?>
-        <p>Nenhum funcionário encontrado.</p>
-    <?php endif; ?>
+        <!-- Resultados da busca -->
+        <?php if (!empty($funcionarios)) : ?>
+            <div class="card-grid">
+                <?php foreach ($funcionarios as $func) : ?>
+                    <div class="card">
+                        <h2><?= $func['nome_funcionario']; ?></h2>
+                        <p>CPF: <?= $func['cpf_funcionario']; ?></p>
+                        <p>Email: <?= $func['email']; ?></p>
+                        <div class="action-buttons">
+                            <a href="editar_funcionario.php?id=<?= $func['id_funcionario']; ?>">
+                                <button class="edit">Editar</button>
+                            </a>
+                            <form method="POST" action="deletar_funcionario.php" style="display:inline;">
+                                <input type="hidden" name="id_funcionario" value="<?= $func['id_funcionario']; ?>">
+                                <button type="submit" class="delete">Excluir</button>
+                            </form>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php elseif (isset($_POST['buscar'])) : ?>
+            <p class="message">Nenhum funcionário encontrado.</p>
+        <?php endif; ?>
 
-    <br><br>
-    <a href="cadastrar_funcionario.php"><button>Cadastrar Novo Colaborador</button></a>
-    <a href="../includes/admin_home.php">Voltar</a>
+        <div class="button-container">
+            <a href="cadastrar_funcionario.php"><button>Cadastrar Novo Colaborador</button></a>
+            <a href="../includes/admin_home.php"><button>Voltar</button></a>
+        </div>
+    </div>
 </body>
 </html>
+
+

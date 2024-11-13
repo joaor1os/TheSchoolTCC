@@ -1,0 +1,84 @@
+/* custom.css */
+
+/* Estilo para o cabeçalho da página */
+h1 {
+    font-family: 'Arial', sans-serif;
+    color: #007bff; /* Cor personalizada */
+    animation-duration: 1s;
+}
+
+/* Ajustes na tabela */
+.table {
+    font-size: 1rem;
+    text-align: center;
+    animation-duration: 1s;
+}
+
+/* Efeito de fade-in na tabela */
+.table th, .table td {
+    vertical-align: middle;
+    animation-duration: 1s;
+}
+
+/* Ajuste nas bordas da tabela */
+.table-bordered {
+    border: 1px solid #ddd;
+}
+
+/* Efeito de hover para a linha da tabela */
+.table tbody tr:hover {
+    background-color: #f8f9fa;
+    transform: translateY(-5px);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+/* Estilo do botão "Ver Presenças" */
+.btn-info {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Efeito de hover para o botão "Ver Presenças" */
+.btn-info:hover {
+    background-color: #138496;
+    border-color: #117a8b;
+    transform: scale(1.05);
+}
+
+/* Efeito de fade-in na célula da tabela */
+.table tbody tr td {
+    opacity: 0;
+    animation: fadeInUp 1s forwards;
+}
+
+/* Efeito para o botão "Voltar para a Home" */
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #4e555b;
+    transform: scale(1.05);
+}
+
+/* Efeito de animação para o botão "Voltar para a Home" */
+.btn-secondary {
+    animation: bounce 1s infinite;
+}
+
+/* Animação de fade-in nas células da tabela */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+

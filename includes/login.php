@@ -68,7 +68,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-<<<<<<< HEAD
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/login.css">
     <title>Login Aluno</title>
@@ -82,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="row justify-content-center">
             <div class="col-md-6 col-lg-4">
                 <div class="card shadow-lg p-4">
-                    <h2 class="text-center text-primary mb-4">Login Aluno</h2>
+                    <h2 class="text-center text-primary mb-4">Login Aluno / Professor </h2>
 
                     <!-- Exibindo erro de login -->
                     <?php if (isset($login_error)): ?>
@@ -115,23 +114,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </body>
 </html>
 
-=======
-    <title>Login Acadêmico</title>
-</head>
-<body>
-    <h2>Login Acadêmico</h2>
-    <?php if (isset($login_error)) echo "<p style='color:red;'>$login_error</p>"; ?>
-    <form action="" method="POST">
-        <label for="email">Email:</label>
-        <input type="email" name="email" id="email" required>
-        <br><br>
-
-        <label for="senha">Senha:</label>
-        <input type="password" name="senha" id="senha" required>
-        <br><br>
-
-        <button type="submit">Login</button>
-    </form>
-</body>
-</html>
->>>>>>> 987d6520ee9329409f685eed70eb524d45753122

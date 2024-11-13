@@ -32,48 +32,43 @@ if (isset($_SESSION['user_id']) && $_SESSION['user_type'] === 'professor') {
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Salas Ativas do Professor</title>
-
-    <script type="text/javascript">
-        // Função para confirmação antes de redirecionar para criar aula
-        function confirmarCriacaoAula(salaId) {
-            var resposta = confirm("Tem certeza de que deseja criar a aula para esta sala?");
-            if (resposta) {
-                // Se o usuário clicar em "Sim", redireciona para a página de criação de aula
-                window.location.href = "criar_aula.php?sala_id=" + salaId;
-            }
-        }
-    </script>
+    <!-- Link para o Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <!-- Link para o CSS personalizado -->
+    <link rel="stylesheet" href="../css/Professor/professorHome.css">
 </head>
 <body>
-    <h1>Salas Ativas do Professor</h1>
 
-    <?php if ($result_salas->num_rows > 0) : ?>
-        <table border="1">
-            <tr>
-                <th>ID da Sala</th>
-                <th>Ano</th>
-                <th>Série</th>
-                <th>Ação</th>
-            </tr>
-            <?php while ($sala = $result_salas->fetch_assoc()) : ?>
-                <tr>
-                    <td><?php echo $sala['id_sala']; ?></td>
-                    <td><?php echo $sala['ano_sala']; ?></td>
-                    <td><?php echo $sala['nome_serie']; ?></td> <!-- Exibe o nome da série -->
-                    <td>
-                        <!-- Modificado para chamar a função JavaScript com o ID da sala -->
-                        <button onclick="confirmarCriacaoAula(<?php echo $sala['id_sala']; ?>)">Criar Aula</button>
-                        <!-- Modificado para passar o id_sala via GET para a página de visualizar aulas -->
-                        <a href="visualizar_aulas.php?sala_id=<?php echo $sala['id_sala']; ?>"><button>Visualizar Aulas</button></a>
-                    </td>
-                </tr>
-            <?php endwhile; ?>
-        </table>
-    <?php else: ?>
-        <p>Nenhuma sala ativa encontrada.</p>
-    <?php endif; ?>
+    <div class="container">
+        <h1>Salas Ativas do Professor</h1>
 
-    <a href="professor_home.php">Voltar para a Home</a>
+        <?php if ($result_salas->num_rows > 0) : ?>
+            <div class="card-container">
+                <?php while ($sala = $result_salas->fetch_assoc()) : ?>
+                    <div class="card">
+                        <h2>ID da Sala: <?php echo $sala['id_sala']; ?></h2>
+                        <p><strong>Ano:</strong> <?php echo $sala['ano_sala']; ?></p>
+                        <p><strong>Série:</strong> <?php echo $sala['nome_serie']; ?></p>
+
+                        
+                        <button class="btn btn-primary" onclick="confirmarCriacaoAula(<?php echo $sala['id_sala']; ?>)">Registrar Aula</button>
+                        <a href="visualizar_aulas.php?sala_id=<?php echo $sala['id_sala']; ?>" class="btn btn-primary">Visualizar Aulas</a>
+                    </div>
+                <?php endwhile; ?>
+            </div>
+        <?php else: ?>
+            <p class="alert alert-warning">Nenhuma sala ativa encontrada.</p>
+        <?php endif; ?>
+
+        <a href="../index.php" class="btn btn-secondary">Voltar para a Home</a>
+    </div>
+
+    <script src="../js/confirmedClass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
+
+
