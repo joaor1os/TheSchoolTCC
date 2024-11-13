@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+<<<<<<< HEAD
 
 <head>
     <meta charset="UTF-8">
@@ -83,4 +84,13 @@
 
 </body>
 
+=======
+<head>
+</head>
+<body>
+<a href="includes/login.php">login Acadêmico</a>
+<br><br>
+<a href="includes/login_institucional.php">Login Institucional</a>
+</body>
+>>>>>>> 987d6520ee9329409f685eed70eb524d45753122
 </html>
