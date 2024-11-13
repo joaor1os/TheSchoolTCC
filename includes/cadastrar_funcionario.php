@@ -23,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Verifica se o CPF tem 11 dígitos
     if (strlen($cpf_funcionario) !== 11) {
         $mensagem = "CPF deve conter 11 dígitos.";
+        
     } else {
         // Cadastrar novo funcionario$funcionario
         $funcionario->setNomeFuncionario($_POST['nome_funcionario']);
@@ -37,6 +38,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($funcionario->cadastrar()) {
             $mensagem = "funcionario cadastrado com sucesso!";
+            echo "<script>
+                alert('$mensagem');
+                window.location.href = 'gerenciar_funcionario_instituicao.php';
+              </script>";
         } else {
             $mensagem = "Erro ao cadastrar funcionario$funcionario.";
         }

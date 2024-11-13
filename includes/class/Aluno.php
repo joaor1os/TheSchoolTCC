@@ -164,6 +164,17 @@ class Aluno {
     }
     
 
+    public function getNomeSituacao($id_situacao) {
+        $query = "SELECT nome_situacao FROM situacao WHERE id_situacao = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $id_situacao);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $situacao = $result->fetch_assoc();
+        
+        return $situacao['nome_situacao'] ?? null;
+    }
+
 
     // Método para atualizar aluno
     public function atualizar($id_aluno) {

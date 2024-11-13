@@ -68,7 +68,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <form method="POST" style="display:inline;">
                             <input type="hidden" name="id_aluno" value="<?= $alu['id_aluno']; ?>">
                             <a href="editar_aluno.php?id_aluno=<?= $alu['id_aluno']; ?>"><button type="button">Editar</button></a>
-                            <button type="submit" name="deletar">Deletar</button>
                         </form>
                     </td>
                 </tr>

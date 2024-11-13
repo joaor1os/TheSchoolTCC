@@ -10,16 +10,26 @@ $db = $database->conn;
 $aluno = new Aluno($db);
 $mensagem = '';
 $alunoEdicao = null;
+$situacoes = [];
 
 // Verifica se o ID do aluno foi passado na URL
 if (isset($_GET['id_aluno'])) {
     $id_aluno = $_GET['id_aluno'];
-    $alunoEdicao = $aluno->buscarPorId($id_aluno); // Método que busca dados do aluno por ID
+    $alunoEdicao = $aluno->buscarPorId($id_aluno);
 
     // Verifica se o aluno foi encontrado
     if (!$alunoEdicao) {
         $mensagem = "Aluno não encontrado.";
     }
+}
+
+// Recupera as opções de situação da tabela 'situacao'
+$querySituacao = "SELECT id_situacao, nome_situacao FROM situacao";
+$stmt = $db->prepare($querySituacao);
+$stmt->execute();
+$result = $stmt->get_result();
+while ($row = $result->fetch_assoc()) {
+    $situacoes[] = $row;
 }
 
 // Lógica para atualizar aluno
@@ -34,7 +44,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['salvar'])) {
     $aluno->setEmail($_POST['email']);
 
     if ($aluno->atualizar($id_aluno)) {
-        $mensagem = "Aluno atualizado com sucesso!";
+        $msg = "Aluno atualizado com sucesso!";
+        echo "<script>
+                alert('$msg');
+                window.location.href = 'gerenciar_aluno.php';
+              </script>";
     } else {
         $mensagem = "Erro ao atualizar aluno.";
     }
@@ -57,6 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['salvar'])) {
     <?php if ($alunoEdicao) : ?>
         <form method="POST" action="editar_aluno.php">
             <input type="hidden" name="id_aluno" value="<?= $alunoEdicao['id_aluno']; ?>">
+            
             <label for="nome_aluno">Nome:</label>
             <input type="text" id="nome_aluno" name="nome_aluno" value="<?= $alunoEdicao['nome_aluno']; ?>" required>
             
@@ -70,8 +85,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['salvar'])) {
             <input type="text" id="sexo_aluno" name="sexo_aluno" value="<?= $alunoEdicao['sexo_aluno']; ?>" required>
             
             <label for="situacao_aluno">Situação:</label>
-            <input type="text" id="situacao_aluno" name="situacao_aluno" value="<?= $alunoEdicao['situacao_aluno']; ?>" required>
-            
+            <select id="situacao_aluno" name="situacao_aluno" required>
+                <?php foreach ($situacoes as $situacao) : ?>
+                    <option value="<?= $situacao['id_situacao']; ?>" <?= $alunoEdicao['situacao_aluno'] == $situacao['id_situacao'] ? 'selected' : ''; ?>>
+                        <?= $situacao['nome_situacao']; ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+
             <label for="contato_aluno">Contato:</label>
             <input type="text" id="contato_aluno" name="contato_aluno" value="<?= $alunoEdicao['contato_aluno']; ?>" required>
             

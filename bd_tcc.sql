@@ -156,5 +156,29 @@ create table presenca_aulas(
     foreign key (aula_realizada) references aulas(id_aula)
 );
 
+create table bimestres(
+	id_bimestre int auto_increment primary key,
+    nome_bimestre varchar(20)
+);
 
+create table notas(
+	id_nota int primary key auto_increment,
+    id_aluno_nota int not null,
+    id_sala_nota int not null,
+    foreign key (id_aluno_nota) references sala_alunos(aluno_sa),
+    foreign key (id_sala_nota) references salas(id_sala)
+);
+
+
+create table notas_aluno(
+	id_na int primary key auto_increment,
+    disciplina_na int not null,
+    nota_na int not null,
+    bimestre_na int not null,
+    nota1 float,
+    nota2 float,
+    nota3 float,
+    media float,
+    foreign key (disciplina_na) references professor(disciplina_professor) 
+);
 

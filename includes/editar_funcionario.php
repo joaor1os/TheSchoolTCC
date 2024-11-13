@@ -40,7 +40,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $funcionario_instituicao->setEmail($_POST['email']);
 
         if ($funcionario_instituicao->atualizar($id_funcionario)) {
-            $mensagem = "Colaborador atualizado com sucesso!";
+            $msg = "Colaborador atualizado com sucesso!";
+            echo "<script>
+                alert('$msg');
+                window.location.href = 'gerenciar_funcionario_instituicao.php';
+              </script>";
         } else {
             $mensagem = "Erro ao atualizar colaborador$funcionario_instituicao.";
         }

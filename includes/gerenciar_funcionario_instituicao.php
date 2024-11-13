@@ -31,6 +31,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $mensagem = "Erro ao deletar funcionário.";
         }
     }
+} else {
+    // Exibe apenas funcionários ativos
+    $funcionarios = $funcionario_instituicao->buscarFuncionariosAtivos();
 }
 ?>
 
@@ -56,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <!-- Resultados da busca -->
     <?php if (!empty($funcionarios)) : ?>
-        <h2>Resultados da Busca:</h2>
+        
         <table border="1">
             <tr>
                 <th>Nome</th>
@@ -73,7 +76,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <form method="POST" style="display:inline;">
                             <input type="hidden" name="id_funcionario" value="<?= $func['id_funcionario']; ?>">
                             <a href="editar_funcionario.php?id=<?= $func['id_funcionario']; ?>"><button type="button">Editar</button></a>
-                            <button type="submit" name="deletar">Deletar</button>
                         </form>
                     </td>
                 </tr>

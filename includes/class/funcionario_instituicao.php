@@ -107,17 +107,48 @@ class funcionario_instituicao {
         return $stmt->num_rows > 0;
     }
 
+    public function buscarFuncionariosAtivos() {
+        // Consulta SQL para buscar funcionários ativos
+        $query = "SELECT * FROM " . $this->table_name . " WHERE situacao_funcionario = 1";  // 1 representa ativo
+        
+        // Preparar a consulta
+        $stmt = $this->conn->prepare($query);
+        
+        // Executa a consulta
+        $stmt->execute();
+        
+        // Obtém o resultado
+        $result = $stmt->get_result();
+        
+        // Verifica se houve resultados
+        if ($result->num_rows > 0) {
+            // Retorna os resultados como array associativo
+            return $result->fetch_all(MYSQLI_ASSOC);
+        } else {
+            // Caso não encontre nenhum resultado
+            return [];
+        }
+    }
+
     // Método para cadastrar o funcionario
     public function cadastrar() {
         // Verifica se o CPF já está cadastrado
         if ($this->cpfExists()) {
-            echo "Erro: O CPF já está cadastrado.";
+            $msg = "Erro: O CPF já está cadastrado.";
+            echo "<script>
+                alert('$msg');
+                window.location.href = 'gerenciar_funcionario_instituicao.php';
+              </script>";
             return false;
         }
     
         // Verifica se o email já está cadastrado
         if ($this->emailExists()) {
-            echo "Erro: O e-mail já está cadastrado.";
+            $msg = "Erro: O e-mail já está cadastrado.";
+            echo "<script>
+                alert('$msg');
+                window.location.href = 'gerenciar_funcionario_instituicao.php';
+              </script>";
             return false;
         }
     

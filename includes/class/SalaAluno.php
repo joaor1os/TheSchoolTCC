@@ -70,7 +70,22 @@ class SalaAluno {
         return $stmt->execute();
     }
 
-
+    public function obterAnoSala($sala_id) {
+        $query = "SELECT ano_sala FROM salas WHERE id_sala = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $sala_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc()['ano_sala'];
+    }
+    
+    public function calcularIdade($dataNascimento) {
+        $dataNasc = new DateTime($dataNascimento);
+        $hoje = new DateTime();
+        $idade = $hoje->diff($dataNasc)->y;
+        return $idade;
+    }
+    
 
     public function buscarSituacoes() {
         $query = "SELECT id_situacao, nome_situacao FROM situacao";
