@@ -10,7 +10,7 @@ if (isset($_GET['id_professor'])) {
     
     // Busca dados do professor
     $query = "
-        SELECT p.formacao_professor, p.disciplina_professor, fi.nome_funcionario
+        SELECT p.disciplina_professor, fi.nome_funcionario
         FROM professor p
         JOIN funcionario_instituicao fi ON p.id_prof_func = fi.id_funcionario
         WHERE p.id_professor = ?";
@@ -40,9 +40,6 @@ if (isset($_GET['id_professor'])) {
     <h1>Editar Professor: <?php echo $professor['nome_funcionario']; ?></h1>
     <form method="POST" action="processa_edicao_professor.php">
         <input type="hidden" name="id_professor" value="<?php echo $id_professor; ?>">
-
-        <label for="formacao_professor">Formação:</label>
-        <input type="text" id="formacao_professor" name="formacao_professor" value="<?php echo $professor['formacao_professor']; ?>" required>
 
         <label for="disciplina_professor">Disciplina:</label>
         <select id="disciplina_professor" name="disciplina_professor">

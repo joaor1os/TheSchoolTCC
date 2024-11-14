@@ -86,7 +86,6 @@ create table funcionario_instituicao(
 create table professor(
     id_professor int auto_increment primary key,
     id_prof_func int not null,
-    formacao_professor varchar(50),
     disciplina_professor int,
     foreign key (id_prof_func) references funcionario_instituicao(id_funcionario),
     foreign key (disciplina_professor) references disciplinas(id_disciplina)
@@ -149,8 +148,8 @@ create table aulas(
 -- Criação da tabela presença_aulas
 create table presenca_aulas(
     id_presenca int auto_increment primary key,
-    aluno_presenca int not null,
-    aula_presenca enum("P","A") not null,
+    aluno_presenca int ,
+    aula_presenca enum("P","A"),
     aula_realizada int not null,
     foreign key (aluno_presenca) references aluno(id_aluno),
     foreign key (aula_realizada) references aulas(id_aula)

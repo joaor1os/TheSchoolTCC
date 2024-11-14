@@ -263,24 +263,42 @@ class funcionario_instituicao {
     
 
     public function atualizar($id_funcionario) {
+        // Query de atualização, sem incluir tipo_funcionario e senha
         $query = "UPDATE " . $this->table_name . " 
-                  SET nome_funcionario = ?, cpf_funcionario = ?, data_nascimento_funcionario = ?, sexo_funcionario = ?, situacao_funcionario = ?, contato_funcionario = ?, tipo_funcionario = ?, email = ?
+                  SET nome_funcionario = ?, cpf_funcionario = ?, data_nascimento_funcionario = ?, 
+                      sexo_funcionario = ?, situacao_funcionario = ?, contato_funcionario = ?, email = ? 
                   WHERE id_funcionario = ?";
+                  
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("ssssisssi", 
+        
+        // Verificação de erros na preparação da query
+        if (!$stmt) {
+            die("Erro na preparação da query: " . $this->conn->error);
+        }
+    
+        // Bind dos parâmetros
+        $stmt->bind_param("ssssissi", 
             $this->nome_funcionario, 
             $this->cpf_funcionario,
             $this->data_nascimento_funcionario, 
             $this->sexo_funcionario, 
             $this->situacao_funcionario, 
-            $this->contato_funcionario,
-            $this->tipo_funcionario, 
+            $this->contato_funcionario, 
             $this->email,
             $id_funcionario
         );
-
-        return $stmt->execute();
+    
+        // Execução e verificação de sucesso
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            echo "Erro ao atualizar: " . $stmt->error;
+            return false;
+        }
     }
+    
+    
+
     
 
     public function deletar($id_funcionario) {
@@ -300,7 +318,7 @@ class funcionario_instituicao {
         $this->setSenha($this->generatePassword());
     }
 
-    private function generatePassword($length = 16) {
+    private function generatePassword($length = 8) {
         return substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, $length);
     }
 }

@@ -11,7 +11,7 @@ $resultados = [];
 
 // Consulta para buscar professores ativos e suas disciplinas
 $query = "
-    SELECT p.id_professor, fi.nome_funcionario, p.formacao_professor, d.nome_disciplina 
+    SELECT p.id_professor, fi.nome_funcionario, d.id_disciplina, d.nome_disciplina 
     FROM professor p
     JOIN funcionario_instituicao fi ON p.id_prof_func = fi.id_funcionario
     JOIN disciplinas d ON p.disciplina_professor = d.id_disciplina 
@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['nome_busca'])) {
     
     // Consulta para buscar professores ativos e suas disciplinas
     $queryBusca = "
-        SELECT p.id_professor, fi.nome_funcionario, p.formacao_professor, d.nome_disciplina 
+        SELECT p.id_professor, fi.nome_funcionario, d.id_disciplina, d.nome_disciplina 
         FROM professor p
         JOIN funcionario_instituicao fi ON p.id_prof_func = fi.id_funcionario
         JOIN disciplinas d ON p.disciplina_professor = d.id_disciplina 
@@ -79,18 +79,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['nome_busca'])) {
             <tr>
                 <th>ID</th>
                 <th>Nome</th>
-                <th>Formação</th>
                 <th>Disciplina</th>
                 <th>Ação</th>
             </tr>
-            <?php foreach ($resultados as $professor) : ?>
+            <?php foreach ($resultados as $professor) : 
+                // Verifica se o professor está inscrito em alguma sala
+                $query_sala = "
+                    SELECT 1 
+                    FROM sala_professor sp
+                    WHERE sp.professor_sp = ? 
+                    LIMIT 1";
+                $stmt_sala = $conn->prepare($query_sala);
+                $stmt_sala->bind_param("i", $professor['id_professor']);
+                $stmt_sala->execute();
+                $result_sala = $stmt_sala->get_result();
+
+                // Se o resultado não for vazio, significa que o professor está inscrito em alguma sala
+                $professor_tem_sala = $result_sala->num_rows > 0;
+            ?>
                 <tr>
                     <td><?php echo $professor['id_professor']; ?></td>
                     <td><?php echo $professor['nome_funcionario']; ?></td>
-                    <td><?php echo $professor['formacao_professor']; ?></td>
-                    <td><?php echo $professor['nome_disciplina']; ?></td> <!-- Nome da disciplina exibido aqui -->
+                    <td><?php echo $professor['nome_disciplina']; ?></td>
                     <td>
-                        <a href="editar_professor.php?id_professor=<?php echo $professor['id_professor']; ?>">Editar</a>
+                        <?php 
+                        // Exibe o botão de editar apenas se o professor tiver a disciplina com id igual a 6
+                        // e não estiver inscrito em nenhuma sala
+                        if (!$professor_tem_sala) : ?>
+                            <a href="editar_professor.php?id_professor=<?php echo $professor['id_professor']; ?>">Editar</a>
+                        <?php endif; ?>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -99,4 +116,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['nome_busca'])) {
     <a href="../includes/admin_home.php"><button>Voltar</button></a>
 </body>
 </html>
-
