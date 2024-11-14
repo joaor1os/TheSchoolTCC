@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['nome_busca'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerenciar Professor</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="styles/gerenciar_professor.css">
+    <link rel="stylesheet" href="../css/Professor/editProfessor.css">
 </head>
 <body>
 
@@ -85,14 +85,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['nome_busca'])) {
         
         <div class="card-deck">
             <?php foreach ($resultados as $professor) : ?>
-                <div class="card shadow-sm animate-card">
+                <div class="card small-card shadow-sm animate-card">
                     <div class="card-body">
-                        <h5 class="card-title">ID: <?php echo $professor['id_professor']; ?></h5>
-                        <p class="card-text"><strong>Nome:</strong> <?php echo $professor['nome_funcionario']; ?></p>
-                        <p class="card-text"><strong>Disciplina:</strong> <?php echo $professor['nome_disciplina']; ?></p>
+                        <h6 class="card-title"><strong>ID:</strong> <?php echo $professor['id_professor']; ?></h6>
+                        <p class="card-text mb-1"><strong>Nome:</strong> <?php echo $professor['nome_funcionario']; ?></p>
+                        <p class="card-text mb-2"><strong>Disciplina:</strong> <?php echo $professor['nome_disciplina']; ?></p>
                         <div class="text-center">
                             <?php if (!$professor_tem_sala) : ?>
-                                <a href="editar_professor.php?id_professor=<?php echo $professor['id_professor']; ?>" class="btn btn-success">Editar</a>
+                                <a href="editar_professor.php?id_professor=<?php echo $professor['id_professor']; ?>" class="btn btn-success btn-sm btn-edit">Editar</a>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -110,3 +110,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['nome_busca'])) {
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+

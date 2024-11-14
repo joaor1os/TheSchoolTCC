@@ -1,79 +1,119 @@
-/* CSS Geral */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
+    background-color: #f7f7f7;
+    font-family: 'Arial', sans-serif;
 }
 
-h1.animate-header {
-    font-size: 2.5rem;
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
     color: #007bff;
-    opacity: 0;
-    transform: translateY(-20px);
-    animation: fadeInDown 1s forwards;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.form-container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    animation: slideUp 1s ease-out;
+}
+
+.form-container label {
+    font-size: 16px;
+    color: #333;
+}
+
+.form-container input,
+.form-container button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.form-container input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.form-container button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.form-container button:hover {
+    background-color: #0056b3;
 }
 
 .card-deck {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    gap: 15px;
 }
 
-.card {
-    width: 18rem;
-    margin: 15px;
+.small-card {
+    width: 230px;
+    background-color: #fff;
     border: none;
-    border-radius: 8px;
-    transition: transform 0.3s, box-shadow 0.3s;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    animation: slideUp 1s ease-out;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.card:hover {
-    transform: scale(1.05);
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+.small-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.card-title {
+    font-weight: bold;
+    font-size: 1rem;
+    color: #007bff;
+}
+
+.card-text {
+    font-size: 0.9rem;
+    color: #555;
 }
 
 .btn-success {
-    transition: background-color 0.3s, transform 0.3s;
+    background-color: #28a745;
+    transition: background-color 0.3s ease;
 }
 
 .btn-success:hover {
-    background-color: #28a745;
-    transform: scale(1.05);
-}
-
-.btn-primary, .btn-secondary {
-    transition: transform 0.3s;
-}
-
-.btn-primary:hover,
-.btn-secondary:hover {
-    transform: scale(1.05);
+    background-color: #218838;
 }
 
 /* Animações */
-@keyframes fadeInDown {
-    0% {
+@keyframes fadeIn {
+    from {
         opacity: 0;
-        transform: translateY(-20px);
     }
-    100% {
+    to {
         opacity: 1;
-        transform: translateY(0);
     }
 }
 
-.animate-card {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 0.8s ease-in-out forwards;
-}
-
-@keyframes fadeInUp {
-    0% {
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
         opacity: 0;
-        transform: translateY(20px);
     }
-    100% {
-        opacity: 1;
+    to {
         transform: translateY(0);
+        opacity: 1;
     }
 }
