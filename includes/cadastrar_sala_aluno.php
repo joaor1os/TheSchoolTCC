@@ -5,30 +5,75 @@ include_once 'db.php';
 $database = new Database();
 $db = $database->conn;
 
-// Função para verificar se o aluno já está cadastrado na sala
-function alunoCadastradoNaSala($aluno_sa, $sala_sa, $db) {
-    $query = "SELECT id_sa FROM sala_alunos WHERE aluno_sa = ? AND sala_sa = ?";
-    $stmt = $db->prepare($query);
-    $stmt->bind_param("ii", $aluno_sa, $sala_sa);
-    $stmt->execute();
-    $stmt->store_result();
-    return $stmt->num_rows > 0;
+// Função para redirecionar com mensagem
+function redirecionarComMensagem($mensagem, $url = 'gerenciar_salas.php') {
+    echo "<script>
+            alert('$mensagem');
+            window.location.href = '$url';
+          </script>";
+    exit;
 }
 
-// Função para cadastrar aluno na sala
-function cadastrarAluno($aluno_sa, $sala_sa, $ativo_sa, $db) {
-    $query = "INSERT INTO sala_alunos (aluno_sa, sala_sa, ativo_sa) VALUES (?, ?, ?)";
-    $stmt = $db->prepare($query);
-    $stmt->bind_param("iii", $aluno_sa, $sala_sa, $ativo_sa);
-    return $stmt->execute();
+// Classe SalaAluno para manipular o cadastro de alunos em sala
+class SalaAluno {
+    private $db;
+
+    public function __construct($db) {
+        $this->db = $db;
+    }
+
+    public function alunoCadastradoNaSala($aluno_sa, $sala_sa) {
+        $query = "SELECT id_sa FROM sala_alunos WHERE aluno_sa = ? AND sala_sa = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("ii", $aluno_sa, $sala_sa);
+        $stmt->execute();
+        $stmt->store_result();
+        return $stmt->num_rows > 0;
+    }
+
+    public function cadastrarAluno($aluno_sa, $sala_sa, $ativo_sa) {
+        $query = "INSERT INTO sala_alunos (aluno_sa, sala_sa, ativo_sa) VALUES (?, ?, ?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("iii", $aluno_sa, $sala_sa, $ativo_sa);
+        return $stmt->execute();
+    }
+
+    public function cadastrarNota($aluno_sa, $sala_sa) {
+        $query = "INSERT INTO notas (id_aluno_nota, id_sala_nota) VALUES (?, ?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("ii", $aluno_sa, $sala_sa);
+        return $stmt->execute();
+    }
 }
 
-// Função para cadastrar nota na tabela 'notas' automaticamente
-function cadastrarNota($aluno_sa, $sala_sa, $db) {
-    $query = "INSERT INTO notas (id_aluno_nota, id_sala_nota) VALUES (?, ?)";
-    $stmt = $db->prepare($query);
-    $stmt->bind_param("ii", $aluno_sa, $sala_sa);
-    return $stmt->execute();
+// Instância da classe SalaAluno
+$salaAluno = new SalaAluno($db);
+
+// Processamento do formulário
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $aluno_sa = isset($_POST['aluno_sa']) ? (int)$_POST['aluno_sa'] : null;
+    $sala_sa = isset($_POST['sala_sa']) ? (int)$_POST['sala_sa'] : null;
+    $ativo_sa = isset($_POST['ativo_sa']) ? (int)$_POST['ativo_sa'] : null;
+
+    if (!$aluno_sa || !$sala_sa || !$ativo_sa) {
+        redirecionarComMensagem('Parâmetros inválidos.');
+    }
+
+    // Verificar se o aluno já está cadastrado na sala
+    if ($salaAluno->alunoCadastradoNaSala($aluno_sa, $sala_sa)) {
+        redirecionarComMensagem('Este aluno já está cadastrado nesta sala.');
+    } else {
+        if ($salaAluno->cadastrarAluno($aluno_sa, $sala_sa, $ativo_sa)) {
+            // Inserir o aluno na tabela 'notas' após o cadastro na sala
+            if ($salaAluno->cadastrarNota($aluno_sa, $sala_sa)) {
+                redirecionarComMensagem('Aluno cadastrado com sucesso!');
+            } else {
+                redirecionarComMensagem('Erro ao cadastrar nota.');
+            }
+        } else {
+            redirecionarComMensagem('Erro ao cadastrar aluno.');
+        }
+    }
 }
 
 // Função para buscar as situações
@@ -44,43 +89,8 @@ function buscarSituacoes($db) {
     return $situacoes;
 }
 
-// Cadastrar aluno na sala
-$mensagem = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $aluno_sa = $_POST['aluno_sa'];
-    $sala_sa = $_POST['sala_sa'];
-    $ativo_sa = $_POST['ativo_sa'];
-
-    // Verificar se o aluno já está cadastrado na sala
-    if (alunoCadastradoNaSala($aluno_sa, $sala_sa, $db)) {
-        $mensagem = 'Este aluno já está cadastrado nesta sala.';
-        echo "<script>
-                alert('$mensagem');
-                window.location.href = 'gerenciar_salas.php';
-              </script>";
-    } else {
-        if (cadastrarAluno($aluno_sa, $sala_sa, $ativo_sa, $db)) {
-            // Inserir o aluno na tabela 'notas' após o cadastro na sala
-            if (cadastrarNota($aluno_sa, $sala_sa, $db)) {
-                $mensagem = 'Aluno cadastrado com sucesso!';
-                echo "<script>
-                        alert('$mensagem');
-                        window.location.href = 'gerenciar_salas.php';
-                      </script>";
-            } else {
-                $mensagem = 'Erro ao cadastrar nota.';
-                echo "<script>
-                        alert('$mensagem');
-                      </script>";
-            }
-        } else {
-            $mensagem = 'Erro ao cadastrar aluno.';
-        }
-    }
-}
-
-// Buscar alunos cadastrados na sala (ordem alfabética)
-$sala_id = $_GET['id_sala'];  // ID da sala a ser passada como parâmetro
+// Buscar alunos cadastrados na sala
+$sala_id = $_GET['id_sala'] ?? 0;
 $query_alunos_cadastrados = "
     SELECT a.id_aluno, a.nome_aluno, a.data_nascimento_aluno
     FROM aluno a
@@ -130,7 +140,7 @@ $result_alunos_cadastrados = $stmt_alunos_cadastrados->get_result();
             <option value="">Selecione um aluno</option>
         </select>
 
-        <input type="hidden" name="sala_sa" value="<?= $_GET['id_sala']; ?>">
+        <input type="hidden" name="sala_sa" value="<?= htmlspecialchars($_GET['id_sala']); ?>">
 
         <label for="ativo_sa">Situação:</label>
         <select name="ativo_sa" id="ativo_sa" required>

@@ -310,7 +310,7 @@ class funcionario_instituicao {
     
     public function cadastrarProfessor($id_funcionario) {
         // Chama o método da classe Professor para inserir na tabela professor
-        $professor = new Professor($id_funcionario, 'Formação padrão', 6); // Exemplo de dados padrão
+        $professor = new Professor($id_funcionario, 6); // Exemplo de dados padrão
         $professor->cadastrarProfessor();
     }
 

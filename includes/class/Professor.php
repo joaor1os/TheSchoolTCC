@@ -16,7 +16,7 @@ class Professor {
     
         $sql = "INSERT INTO professor (id_prof_func, disciplina_professor) VALUES (?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("isi", $this->id_funcionario, $this->disciplina_professor);
+        $stmt->bind_param("ii", $this->id_funcionario, $this->disciplina_professor);
     
         if ($stmt->execute()) {
             echo " Professor cadastrado com sucesso!";

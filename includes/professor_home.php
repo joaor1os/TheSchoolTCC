@@ -34,7 +34,9 @@ if (isset($_SESSION['user_id']) && $_SESSION['user_type'] === 'professor') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Salas Ativas do Professor</title>
+    <!-- Link para o Bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <!-- Link para o CSS personalizado -->
     <link rel="stylesheet" href="../css/Professor/professorHome.css">
 </head>
 <body>
@@ -49,8 +51,12 @@ if (isset($_SESSION['user_id']) && $_SESSION['user_type'] === 'professor') {
                         <h2>ID da Sala: <?php echo $sala['id_sala']; ?></h2>
                         <p><strong>Ano:</strong> <?php echo $sala['ano_sala']; ?></p>
                         <p><strong>Série:</strong> <?php echo $sala['nome_serie']; ?></p>
+
+                        
                         <button class="btn btn-primary" onclick="confirmarCriacaoAula(<?php echo $sala['id_sala']; ?>)">Registrar Aula</button>
                         <a href="visualizar_aulas.php?sala_id=<?php echo $sala['id_sala']; ?>" class="btn btn-primary">Visualizar Aulas</a>
+                        <a href="registrar_notas.php?sala_id=<?php echo $sala['id_sala']; ?>" class="btn btn-primary">Registrar Notas</a>
+                        <a href="visualizar_notas.php?sala_id=<?php echo $sala['id_sala']; ?>" class="btn btn-primary">Visualizar Notas</a>
                     </div>
                 <?php endwhile; ?>
             </div>

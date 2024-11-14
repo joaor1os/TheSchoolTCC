@@ -45,7 +45,7 @@ class SalaAluno {
         $stmt->bind_param("ii", $aluno_sa, $sala_sa);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->num_rows > 0; // Retorna true se o aluno já estiver cadastrado
+        return $result->num_rows > 0;
     }
 
     public function listarAlunosNaSala($sala_sa) {
@@ -54,7 +54,7 @@ class SalaAluno {
                   JOIN aluno a ON sa.aluno_sa = a.id_aluno 
                   JOIN situacao s ON sa.ativo_sa = s.id_situacao 
                   WHERE sa.sala_sa = ? 
-                  ORDER BY a.nome_aluno ASC"; // Ordem alfabética
+                  ORDER BY a.nome_aluno ASC";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("i", $sala_sa);
         $stmt->execute();
@@ -62,7 +62,6 @@ class SalaAluno {
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    // Método para atualizar os dados do aluno na sala
     public function atualizar($id_sa, $aluno_sa, $ativo_sa) {
         $query = "UPDATE sala_alunos SET aluno_sa = ?, ativo_sa = ? WHERE id_sa = ?";
         $stmt = $this->conn->prepare($query);
@@ -85,7 +84,6 @@ class SalaAluno {
         $idade = $hoje->diff($dataNasc)->y;
         return $idade;
     }
-    
 
     public function buscarSituacoes() {
         $query = "SELECT id_situacao, nome_situacao FROM situacao";
@@ -97,10 +95,29 @@ class SalaAluno {
         return $situacoes;
     }
 
+    // Método para cadastrar o aluno na sala e automaticamente inserir na tabela 'notas'
     public function cadastrar($aluno_sa, $sala_sa, $ativo_sa) {
+        // Verifica se o aluno já está na sala
+        if ($this->alunoCadastradoNaSala($aluno_sa, $sala_sa)) {
+            return "Este aluno já está cadastrado na sala.";
+        }
+
+        // Insere o aluno na sala
         $query = "INSERT INTO sala_alunos (aluno_sa, sala_sa, ativo_sa) VALUES (?, ?, ?)";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("iii", $aluno_sa, $sala_sa, $ativo_sa);
+        if ($stmt->execute()) {
+            // Insere uma linha na tabela 'notas' após o aluno ser cadastrado na sala
+            return $this->cadastrarNota($aluno_sa, $sala_sa) ? "Aluno cadastrado com sucesso!" : "Erro ao cadastrar a nota.";
+        }
+        return "Erro ao cadastrar aluno.";
+    }
+
+    // Método para inserir a nota do aluno automaticamente
+    private function cadastrarNota($aluno_sa, $sala_sa) {
+        $query = "INSERT INTO notas (id_aluno_nota, id_sala_nota) VALUES (?, ?)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("ii", $aluno_sa, $sala_sa);
         return $stmt->execute();
     }
 }

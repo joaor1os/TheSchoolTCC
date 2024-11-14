@@ -86,7 +86,7 @@ create table funcionario_instituicao(
 create table professor(
     id_professor int auto_increment primary key,
     id_prof_func int not null,
-    disciplina_professor int,
+    disciplina_professor int not null,
     foreign key (id_prof_func) references funcionario_instituicao(id_funcionario),
     foreign key (disciplina_professor) references disciplinas(id_disciplina)
 );
@@ -148,8 +148,8 @@ create table aulas(
 -- Criação da tabela presença_aulas
 create table presenca_aulas(
     id_presenca int auto_increment primary key,
-    aluno_presenca int ,
-    aula_presenca enum("P","A"),
+    aluno_presenca int not null ,
+    aula_presenca enum("P","A") not null,
     aula_realizada int not null,
     foreign key (aluno_presenca) references aluno(id_aluno),
     foreign key (aula_realizada) references aulas(id_aula)
@@ -159,6 +159,12 @@ create table bimestres(
 	id_bimestre int auto_increment primary key,
     nome_bimestre varchar(20)
 );
+
+insert into bimestres(nome_bimestre) values
+	("1º Bimestre"),
+	("2º Bimestre"),
+	("3º Bimestre"),
+	("4º Bimestre");
 
 create table notas(
 	id_nota int primary key auto_increment,
@@ -178,6 +184,8 @@ create table notas_aluno(
     nota2 float,
     nota3 float,
     media float,
-    foreign key (disciplina_na) references professor(disciplina_professor) 
+    foreign key (disciplina_na) references professor(disciplina_professor),
+    foreign key (nota_na) references notas(id_nota),
+    foreign key (bimestre_na) references bimestres(id_bimestre)
 );
 

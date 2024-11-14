@@ -34,40 +34,23 @@ if (isset($_GET['id_professor'])) {
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Professor</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/Professor/editProf.css">
 </head>
 <body>
-
-<div class="container my-5">
     <h1>Editar Professor: <?php echo $professor['nome_funcionario']; ?></h1>
+    <form method="POST" action="processa_edicao_professor.php">
+        <input type="hidden" name="id_professor" value="<?php echo $id_professor; ?>">
 
-    <div class="form-container">
-        <form method="POST" action="processa_edicao_professor.php">
-            <input type="hidden" name="id_professor" value="<?php echo $id_professor; ?>">
+        <label for="disciplina_professor">Disciplina:</label>
+        <select id="disciplina_professor" name="disciplina_professor">
+            <?php while ($disciplina = $disciplinas_result->fetch_assoc()) : ?>
+                <option value="<?php echo $disciplina['id_disciplina']; ?>" <?php echo $professor['disciplina_professor'] == $disciplina['id_disciplina'] ? 'selected' : ''; ?>>
+                    <?php echo $disciplina['nome_disciplina']; ?>
+                </option>
+            <?php endwhile; ?>
+        </select>
 
-            <label for="disciplina_professor">Disciplina:</label>
-            <select id="disciplina_professor" name="disciplina_professor">
-                <?php while ($disciplina = $disciplinas_result->fetch_assoc()) : ?>
-                    <option value="<?php echo $disciplina['id_disciplina']; ?>" <?php echo $professor['disciplina_professor'] == $disciplina['id_disciplina'] ? 'selected' : ''; ?>>
-                        <?php echo $disciplina['nome_disciplina']; ?>
-                    </option>
-                <?php endwhile; ?>
-            </select>
-
-            <button type="submit" class="btn btn-primary">Salvar Alterações</button>
-        </form>
-    </div>
-
-    <div class="text-center mt-4">
-        <a href="gerenciar_professor.php" class="btn btn-secondary btn-lg">Voltar</a>
-    </div>
-</div>
-
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+        <button type="submit">Salvar Alterações</button>
+    </form>
 </body>
 </html>
-

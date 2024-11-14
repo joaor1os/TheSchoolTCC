@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     } else {
         // Verifica se o usuário é um aluno
-        $query_aluno = "SELECT matricula_aluno, senha FROM aluno WHERE email = ?";
+        $query_aluno = "SELECT id_aluno, senha FROM aluno WHERE email = ?";
         $stmt_aluno = $conn->prepare($query_aluno);
         $stmt_aluno->bind_param("s", $email);
         $stmt_aluno->execute();
@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $row_aluno = $result_aluno->fetch_assoc();
             if (password_verify($senha, $row_aluno['senha'])) {
                 // Aluno autenticado
-                $_SESSION['user_id'] = $row_aluno['matricula_aluno'];
+                $_SESSION['user_id'] = $row_aluno['id_aluno'];
                 $_SESSION['user_type'] = 'aluno';
                 header("Location: aluno_home.php");
                 exit();
