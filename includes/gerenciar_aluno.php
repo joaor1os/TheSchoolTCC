@@ -33,55 +33,59 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerenciar Alunos</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/aluno/gerenciarAluno.css">
 </head>
 <body>
+
+<div class="container my-5">
     <h1>Gerenciar Alunos</h1>
 
     <?php if ($mensagem) : ?>
-        <p><?= $mensagem ?></p>
+        <div class="alert alert-info">
+            <?= $mensagem ?>
+        </div>
     <?php endif; ?>
 
-    <!-- Formulário de busca -->
-    <form method="POST" action="gerenciar_aluno.php">
-        <label for="busca">Nome ou CPF:</label>
-        <input type="text" id="busca" name="busca" required>
-        <button type="submit" name="buscar">Buscar</button>
-    </form>
+    <div class="form-container mb-4">
+        <form method="POST" action="gerenciar_aluno.php" class="form-inline">
+            <label for="busca" class="mr-2">Nome ou CPF:</label>
+            <input type="text" id="busca" name="busca" class="form-control mr-2" required>
+            <button type="submit" name="buscar" class="btn btn-primary">Buscar</button>
+        </form>
+    </div>
 
-    <!-- Resultados da busca -->
     <?php if (!empty($alunos)) : ?>
-        <h2>Resultados da Busca:</h2>
-        <table border="1">
-            <tr>
-                <th>Nome</th>
-                <th>CPF</th>
-                <th>Email</th>
-                <th>Ações</th>
-            </tr>
+        <h2 class="mt-4">Resultados da Busca:</h2>
+        <div class="card-container">
             <?php foreach ($alunos as $alu) : ?>
-                <tr>
-                    <td><?= $alu['nome_aluno']; ?></td>
-                    <td><?= $alu['cpf_aluno']; ?></td>
-                    <td><?= $alu['email']; ?></td>
-                    <td>
-                        <form method="POST" style="display:inline;">
-                            <input type="hidden" name="id_aluno" value="<?= $alu['id_aluno']; ?>">
-                            <a href="editar_aluno.php?id_aluno=<?= $alu['id_aluno']; ?>"><button type="button">Editar</button></a>
-                        </form>
-                    </td>
-                </tr>
+                <div class="card aluno-card">
+                    <div class="card-body">
+                        <h5 class="card-title"><?= $alu['nome_aluno']; ?></h5>
+                        <p class="card-text"><strong>CPF:</strong> <?= $alu['cpf_aluno']; ?></p>
+                        <p class="card-text"><strong>Email:</strong> <?= $alu['email']; ?></p>
+                        <a href="editar_aluno.php?id_aluno=<?= $alu['id_aluno']; ?>" class="btn btn-success btn-sm">Editar</a>
+                    </div>
+                </div>
             <?php endforeach; ?>
-        </table>
+        </div>
     <?php elseif (isset($_POST['buscar'])) : ?>
-        <p>Nenhum aluno encontrado.</p>
+        <p class="text-center text-muted">Nenhum aluno encontrado.</p>
     <?php endif; ?>
 
-    <!-- Botão para acessar a página de cadastro -->
-    <br>
-    <a href="cadastrar_aluno.php"><button>Cadastrar Novo Aluno</button></a>
+    <div class="text-center mt-4">
+        <a href="cadastrar_aluno.php" class="btn btn-secondary btn-lg">Cadastrar Novo Aluno</a>
+    </div>
 
-    <br><br>
-    <a href="../includes/admin_home.php">Voltar</a>
+    <div class="text-center mt-3">
+        <a href="../includes/admin_home.php" class="btn btn-outline-primary">Voltar</a>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+

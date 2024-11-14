@@ -53,7 +53,7 @@ button:hover {
     background-color: #218838;
 }
 
-/* Animações */
+
 @keyframes fadeIn {
     from {
         opacity: 0;

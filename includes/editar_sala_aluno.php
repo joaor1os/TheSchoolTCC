@@ -34,35 +34,46 @@ $situacoes = $salaAluno->buscarSituacoes();
 <head>
     <meta charset="UTF-8">
     <title>Editar Aluno na Sala</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/room/editAlunoRoom.css" rel="stylesheet">
 </head>
 <body>
-    <h1>Editar Aluno</h1>
-    <?php if (isset($mensagem)) echo "<p>$mensagem</p>"; ?>
-    
-    <form method="POST" action="editar_sala_aluno.php">
-        <input type="hidden" name="id_sa" value="<?= $id_sa; ?>">
+    <div class="container mt-5">
+        <h1 class="text-center mb-4 titulo-azul fadeIn">Editar Aluno</h1>
+        
+        <?php if (isset($mensagem)) echo "<div class='alert alert-info fadeIn' role='alert'>$mensagem</div>"; ?>
 
-        <label for="aluno_sa">Selecione o Aluno:</label>
-        <select id="aluno_sa" name="aluno_sa" required>
-            <?php foreach ($alunos as $aluno): ?>
-                <option value="<?= $aluno['id_aluno']; ?>" <?= ($aluno['id_aluno'] == $alunoDetails['aluno_sa']) ? 'selected' : ''; ?>>
-                    <?= $aluno['nome_aluno']; ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
+        <form method="POST" action="editar_sala_aluno.php">
+            <input type="hidden" name="id_sa" value="<?= $id_sa; ?>">
 
-        <label for="ativo_sa">Situação:</label>
-        <select id="ativo_sa" name="ativo_sa" required>
-            <?php foreach ($situacoes as $situacao): ?>
-                <option value="<?= $situacao['id_situacao']; ?>" <?= ($situacao['id_situacao'] == $alunoDetails['ativo_sa']) ? 'selected' : ''; ?>>
-                    <?= $situacao['nome_situacao']; ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
+            <div class="mb-3">
+                <label for="aluno_sa" class="form-label">Selecione o Aluno:</label>
+                <select id="aluno_sa" name="aluno_sa" class="form-select" required>
+                    <?php foreach ($alunos as $aluno): ?>
+                        <option value="<?= $aluno['id_aluno']; ?>" <?= ($aluno['id_aluno'] == $alunoDetails['aluno_sa']) ? 'selected' : ''; ?>>
+                            <?= $aluno['nome_aluno']; ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
 
-        <button type="submit">Atualizar</button>
-    </form>
+            <div class="mb-3">
+                <label for="ativo_sa" class="form-label">Situação:</label>
+                <select id="ativo_sa" name="ativo_sa" class="form-select" required>
+                    <?php foreach ($situacoes as $situacao): ?>
+                        <option value="<?= $situacao['id_situacao']; ?>" <?= ($situacao['id_situacao'] == $alunoDetails['ativo_sa']) ? 'selected' : ''; ?>>
+                            <?= $situacao['nome_situacao']; ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
 
-    <a href="gerenciar_salas.php">Voltar</a>
+            <button type="submit" class="btn btn-success w-100 transition">Atualizar</button>
+        </form>
+
+        <a href="gerenciar_salas.php" class="btn btn-primary w-100 mt-4 transition">Voltar</a>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+

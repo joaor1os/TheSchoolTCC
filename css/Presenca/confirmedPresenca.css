@@ -52,7 +52,7 @@ input[type="radio"] {
     margin-right: 10px;
 }
 
-/* Botões */
+
 button, .btn {
     padding: 10px 20px;
     font-size: 14px;
@@ -84,7 +84,7 @@ a:hover {
     color: #0056b3;
 }
 
-/* Animações */
+
 @keyframes fadeIn {
     0% {
         opacity: 0;

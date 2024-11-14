@@ -1,4 +1,4 @@
-/* Estilo geral */
+
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f5f7fa;
@@ -16,7 +16,6 @@ h1 {
     animation: fadeIn 1s ease-out;
 }
 
-/* Card Layout */
 .card-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -41,7 +40,7 @@ h1 {
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
 }
 
-/* Títulos e descrição */
+
 .card h2 {
     color: #333;
     font-size: 20px;
@@ -53,7 +52,7 @@ h1 {
     font-size: 14px;
 }
 
-/* Botões */
+
 button, .btn {
     margin-top: 15px;
     padding: 10px 20px;
@@ -96,7 +95,6 @@ button:hover, .btn:hover {
     background-color: #5a6268;
 }
 
-/* Links */
 a {
     display: inline-block;
     text-align: center;
@@ -111,7 +109,7 @@ a:hover {
     color: #0056b3;
 }
 
-/* Animações */
+
 @keyframes fadeIn {
     0% {
         opacity: 0;

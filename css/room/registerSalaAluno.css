@@ -1,0 +1,100 @@
+
+body {
+    background-color: #f8f9fa;
+    font-family: 'Arial', sans-serif;
+}
+
+
+.container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    animation: fadeInContainer 1s ease-in-out;
+}
+
+.titulo-azul {
+    color: #007bff;
+    font-size: 2em;
+    animation: fadeInTitle 1s ease-in-out;
+}
+
+
+.fadeIn {
+    animation: fadeInForm 1s ease-in-out;
+}
+
+.transition {
+    transition: all 0.3s ease;
+}
+
+
+button[type="submit"], .btn-outline-secondary {
+    font-size: 1.1em;
+    border-radius: 4px;
+}
+
+
+table th {
+    background-color: #28a745;
+    color: white;
+    animation: fadeInTable 1s ease-in-out;
+}
+
+table tr:hover {
+    background-color: #f1f1f1;
+}
+
+table td, table th {
+    padding: 10px;
+}
+
+@keyframes fadeInContainer {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInTitle {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInForm {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInTable {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+}

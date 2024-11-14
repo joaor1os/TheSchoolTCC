@@ -108,6 +108,69 @@ $result_alunos_cadastrados = $stmt_alunos_cadastrados->get_result();
 <head>
     <meta charset="UTF-8">
     <title>Cadastrar Aluno na Sala</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" >
+    <link rel="stylesheet" href="../css/room/registerSalaAluno.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mb-4 titulo-azul">Cadastrar Aluno na Sala</h1>
+
+        <form method="POST" action="cadastrar_sala_aluno.php" class="fadeIn">
+            <div class="mb-3">
+                <label for="nome_aluno" class="form-label">Nome do Aluno:</label>
+                <input type="text" class="form-control transition" id="nome_aluno" name="nome_aluno" onkeyup="buscarAlunos()" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="aluno_sa" class="form-label">Selecione o Aluno:</label>
+                <select name="aluno_sa" id="aluno_sa" class="form-select transition" required>
+                    <option value="">Selecione um aluno</option>
+                </select>
+            </div>
+
+            <input type="hidden" name="sala_sa" value="<?= htmlspecialchars($_GET['id_sala']); ?>">
+
+            <div class="mb-3">
+                <label for="ativo_sa" class="form-label">Situação:</label>
+                <select name="ativo_sa" id="ativo_sa" class="form-select transition" required>
+                    <?php
+                    $situacoes = buscarSituacoes($db);
+                    foreach ($situacoes as $situacao) {
+                        echo "<option value=\"{$situacao['id_situacao']}\">{$situacao['nome_situacao']}</option>";
+                    }
+                    ?>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 transition">Cadastrar</button>
+        </form>
+
+        <a href="gerenciar_salas.php" class="btn btn-outline-secondary w-100 mt-3 transition">Voltar</a>
+
+        <h2 class="mt-5">Alunos Já Cadastrados na Sala</h2>
+        <table class="table table-striped transition">
+            <thead>
+                <tr>
+                    <th>Nome do Aluno</th>
+                    <th>Idade</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                // Exibe a lista de alunos já cadastrados na sala
+                while ($aluno = $result_alunos_cadastrados->fetch_assoc()) {
+                    $data_nascimento = new DateTime($aluno['data_nascimento_aluno']);
+                    $idade = $data_nascimento->diff(new DateTime())->y;
+                    echo "<tr>
+                            <td>{$aluno['nome_aluno']}</td>
+                            <td>{$idade} anos</td>
+                          </tr>";
+                }
+                ?>
+            </tbody>
+        </table>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function buscarAlunos() {
             const nome = document.getElementById('nome_aluno').value;
@@ -127,58 +190,6 @@ $result_alunos_cadastrados = $stmt_alunos_cadastrados->get_result();
             }
         }
     </script>
-</head>
-<body>
-    <h1>Cadastrar Aluno na Sala</h1>
-    
-    <form method="POST" action="cadastrar_sala_aluno.php">
-        <label for="nome_aluno">Nome do Aluno:</label>
-        <input type="text" id="nome_aluno" name="nome_aluno" onkeyup="buscarAlunos()" required>
-        
-        <label for="aluno_sa">Selecione o Aluno:</label>
-        <select name="aluno_sa" id="aluno_sa" required>
-            <option value="">Selecione um aluno</option>
-        </select>
-
-        <input type="hidden" name="sala_sa" value="<?= htmlspecialchars($_GET['id_sala']); ?>">
-
-        <label for="ativo_sa">Situação:</label>
-        <select name="ativo_sa" id="ativo_sa" required>
-            <?php
-            $situacoes = buscarSituacoes($db);
-            foreach ($situacoes as $situacao) {
-                echo "<option value=\"{$situacao['id_situacao']}\">{$situacao['nome_situacao']}</option>";
-            }
-            ?>
-        </select>
-
-        <button type="submit">Cadastrar</button>
-    </form>
-
-    <a href="gerenciar_salas.php"><button>Voltar</button></a>
-
-    <h2>Alunos Já Cadastrados na Sala</h2>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Nome do Aluno</th>
-                <th>Idade</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            // Exibe a lista de alunos já cadastrados na sala
-            while ($aluno = $result_alunos_cadastrados->fetch_assoc()) {
-                $data_nascimento = new DateTime($aluno['data_nascimento_aluno']);
-                $idade = $data_nascimento->diff(new DateTime())->y;
-                echo "<tr>
-                        <td>{$aluno['nome_aluno']}</td>
-                        <td>{$idade} anos</td>
-                      </tr>";
-            }
-            ?>
-        </tbody>
-    </table>
-
 </body>
 </html>
+

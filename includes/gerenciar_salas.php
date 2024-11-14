@@ -28,92 +28,116 @@ $salasAtivas = $sala->listarSalasAtivas();
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerenciar Salas</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/room/gerenciarRoom.css">
 </head>
 <body>
-    <h1>Gerenciar Salas</h1>
+
+<div class="container my-5">
+    <h1 class="text-center">Gerenciar Salas</h1>
 
     <h2>Salas Ativas</h2>
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Ano</th>
-            <th>Série</th>
-            <th>Situação</th>
-            <th>Ações Aluno</th>
-            <th>Ações Professor</th>
-        </tr>
-        <?php foreach ($salasAtivas as $salaAtiva): ?>
-        <tr>
-            <td><?= htmlspecialchars($salaAtiva['id_sala']); ?></td>
-            <td><?= htmlspecialchars($salaAtiva['ano_sala']); ?></td>
-            <td><?= htmlspecialchars($salaAtiva['nome_serie']); ?></td>
-            <td><?= htmlspecialchars($salaAtiva['nome_situacao']); ?></td>
-            <td>
-                <!-- Link para cadastrar aluno na sala ativa -->
-                <a href="../includes/cadastrar_sala_aluno.php?id_sala=<?= $salaAtiva['id_sala']; ?>">Cadastrar Alunos</a>
-                <br><br>
-                <a href="../includes/visualizar_sala_aluno.php?id_sala=<?= $salaAtiva['id_sala']; ?>">Visualizar Alunos</a>
-            </td>
-            <td>
-                <a href="../includes/cadastrar_sala_professor.php?id_sala=<?= $salaAtiva['id_sala']; ?>">Cadastar Professores</a>
-                <br><br>
-                <a href="../includes/visualizar_sala_professor.php?id_sala=<?= $salaAtiva['id_sala']; ?>">Visualizar Professores</a>
-            </td>
-        </tr>
-        <?php endforeach; ?>
-    </table>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="thead-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Ano</th>
+                    <th>Série</th>
+                    <th>Situação</th>
+                    <th>Ações Aluno</th>
+                    <th>Ações Professor</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($salasAtivas as $salaAtiva): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($salaAtiva['id_sala']); ?></td>
+                        <td><?= htmlspecialchars($salaAtiva['ano_sala']); ?></td>
+                        <td><?= htmlspecialchars($salaAtiva['nome_serie']); ?></td>
+                        <td><?= htmlspecialchars($salaAtiva['nome_situacao']); ?></td>
+                        <td>
+                            <a href="../includes/cadastrar_sala_aluno.php?id_sala=<?= $salaAtiva['id_sala']; ?>" class="btn btn-primary btn-sm">Cadastrar Alunos</a>
+                            <a href="../includes/visualizar_sala_aluno.php?id_sala=<?= $salaAtiva['id_sala']; ?>" class="btn btn-info btn-sm">Visualizar Alunos</a>
+                        </td>
+                        <td>
+                            <a href="../includes/cadastrar_sala_professor.php?id_sala=<?= $salaAtiva['id_sala']; ?>" class="btn btn-primary btn-sm">Cadastrar Professores</a>
+                            <a href="../includes/visualizar_sala_professor.php?id_sala=<?= $salaAtiva['id_sala']; ?>" class="btn btn-info btn-sm">Visualizar Professores</a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 
     <h2>Buscar Salas</h2>
-    <form method="POST" action="gerenciar_salas.php">
-        <label for="serie_sala">Série:</label>
-        <select id="serie_sala" name="serie_sala" required>
-            <?php
-            $series = $sala->buscarSeries();
-            foreach ($series as $serie) {
-                echo "<option value=\"{$serie['id_serie']}\">" . htmlspecialchars($serie['nome_serie']) . "</option>";
-            }
-            ?>
-        </select>
+    <form method="POST" action="gerenciar_salas.php" class="mb-5">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="serie_sala">Série:</label>
+                <select id="serie_sala" name="serie_sala" class="form-control" required>
+                    <?php
+                    $series = $sala->buscarSeries();
+                    foreach ($series as $serie) {
+                        echo "<option value=\"{$serie['id_serie']}\">" . htmlspecialchars($serie['nome_serie']) . "</option>";
+                    }
+                    ?>
+                </select>
+            </div>
 
-        <label for="ano_sala">Ano:</label>
-        <input type="number" id="ano_sala" name="ano_sala" required>
-
-        <button type="submit" name="buscar">Buscar</button>
+            <div class="form-group col-md-6">
+                <label for="ano_sala">Ano:</label>
+                <input type="number" id="ano_sala" name="ano_sala" class="form-control" required>
+            </div>
+        </div>
+        <button type="submit" name="buscar" class="btn btn-success btn-lg btn-block">Buscar</button>
     </form>
 
     <!-- Resultados da busca -->
     <?php if (!empty($salasBuscadas)): ?>
         <h2>Resultados da Busca:</h2>
-        <table border="1">
-            <tr>
-                <th>ID</th>
-                <th>Ano</th>
-                <th>Série</th>
-                <th>Situação</th>
-                <th>Ações</th>
-            </tr>
-            <?php foreach ($salasBuscadas as $salaBuscada): ?>
-            <tr>
-                <td><?= htmlspecialchars($salaBuscada['id_sala']); ?></td>
-                <td><?= htmlspecialchars($salaBuscada['ano_sala']); ?></td>
-                <td><?= htmlspecialchars($salaBuscada['nome_serie']); ?></td>
-                <td><?= htmlspecialchars($salaBuscada['nome_situacao']); ?></td>
-                <td>
-                    <!-- Link para editar sala -->
-                    <form method="POST" action="editar_sala.php" style="display:inline;">
-                        <input type="hidden" name="id_sala" value="<?= $salaBuscada['id_sala']; ?>">
-                        <button type="submit">Editar</button>
-                    </form>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </table>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead class="thead-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Ano</th>
+                        <th>Série</th>
+                        <th>Situação</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($salasBuscadas as $salaBuscada): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($salaBuscada['id_sala']); ?></td>
+                            <td><?= htmlspecialchars($salaBuscada['ano_sala']); ?></td>
+                            <td><?= htmlspecialchars($salaBuscada['nome_serie']); ?></td>
+                            <td><?= htmlspecialchars($salaBuscada['nome_situacao']); ?></td>
+                            <td>
+                                <form method="POST" action="editar_sala.php" style="display:inline;">
+                                    <input type="hidden" name="id_sala" value="<?= $salaBuscada['id_sala']; ?>">
+                                    <button type="submit" class="btn btn-warning btn-sm">Editar</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
     <?php endif; ?>
 
-    <br>
-    <a href="cadastrar_sala.php"><button>Cadastrar Nova Sala</button></a>
-    <p></p>
-    <a href="../includes/admin_home.php"><button>Voltar</button></a>
+    <div class="text-center mt-5">
+        <a href="cadastrar_sala.php" class="btn btn-success btn-lg">Cadastrar Nova Sala</a>
+        <a href="../includes/admin_home.php" class="btn btn-outline-primary btn-lg">Voltar</a>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
+

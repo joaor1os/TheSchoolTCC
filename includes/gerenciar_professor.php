@@ -58,61 +58,55 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['nome_busca'])) {
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerenciar Professor</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/Professor/gerenciarProf.css">
 </head>
 <body>
+
+<div class="container my-5">
     <h1>Buscar Professor</h1>
-    <form method="POST" action="">
-        <label for="nome_busca">Nome do Professor:</label>
-        <input type="text" id="nome_busca" name="nome_busca" required>
-        <button type="submit">Buscar</button>
-    </form>
+
+    <div class="form-container mb-4">
+        <form method="POST" action="">
+            <label for="nome_busca">Nome do Professor:</label>
+            <input type="text" id="nome_busca" name="nome_busca" required>
+            <button type="submit">Buscar</button>
+        </form>
+    </div>
 
     <?php if (!empty($mensagem)) : ?>
-        <p><?php echo $mensagem; ?></p>
+        <p class="alert alert-info text-center"><?php echo $mensagem; ?></p>
     <?php endif; ?>
 
     <?php if (!empty($resultados)) : ?>
-        <h2>Professores Ativos:</h2>
+        <h2 class="text-center mb-4">Professores Ativos:</h2>
 
-        <table border="1">
-            <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Disciplina</th>
-                <th>Ação</th>
-            </tr>
-            <?php foreach ($resultados as $professor) : 
-                // Verifica se o professor está inscrito em alguma sala
-                $query_sala = "
-                    SELECT 1 
-                    FROM sala_professor sp
-                    WHERE sp.professor_sp = ? 
-                    LIMIT 1";
-                $stmt_sala = $conn->prepare($query_sala);
-                $stmt_sala->bind_param("i", $professor['id_professor']);
-                $stmt_sala->execute();
-                $result_sala = $stmt_sala->get_result();
-
-                // Se o resultado não for vazio, significa que o professor está inscrito em alguma sala
-                $professor_tem_sala = $result_sala->num_rows > 0;
-            ?>
-                <tr>
-                    <td><?php echo $professor['id_professor']; ?></td>
-                    <td><?php echo $professor['nome_funcionario']; ?></td>
-                    <td><?php echo $professor['nome_disciplina']; ?></td>
-                    <td>
-                        <?php 
-                        // Exibe o botão de editar apenas se o professor tiver a disciplina com id igual a 6
-                        // e não estiver inscrito em nenhuma sala
-                        if (!$professor_tem_sala) : ?>
-                            <a href="editar_professor.php?id_professor=<?php echo $professor['id_professor']; ?>">Editar</a>
-                        <?php endif; ?>
-                    </td>
-                </tr>
+        <div class="card-deck">
+            <?php foreach ($resultados as $professor) : ?>
+                <div class="card small-card shadow-sm">
+                    <div class="card-body">
+                        <h6 class="card-title"><strong>ID:</strong> <?php echo $professor['id_professor']; ?></h6>
+                        <p class="card-text"><strong>Nome:</strong> <?php echo $professor['nome_funcionario']; ?></p>
+                        <p class="card-text"><strong>Disciplina:</strong> <?php echo $professor['nome_disciplina']; ?></p>
+                        <div class="text-center">
+                            <?php if (!$professor_tem_sala) : ?>
+                                <a href="editar_professor.php?id_professor=<?php echo $professor['id_professor']; ?>" class="btn btn-success btn-sm">Editar</a>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
             <?php endforeach; ?>
-        </table>
+        </div>
     <?php endif; ?>
-    <a href="../includes/admin_home.php"><button>Voltar</button></a>
+
+    <div class="text-center mt-5">
+        <a href="../includes/admin_home.php" class="btn btn-secondary btn-lg">Voltar</a>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
