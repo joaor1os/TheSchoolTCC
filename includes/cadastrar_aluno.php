@@ -33,43 +33,69 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastrar Aluno</title>
+    <title>Cadastrar Novo Aluno</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/aluno/registerAluno.css">
 </head>
 <body>
+
+<div class="container my-5">
     <h1>Cadastrar Novo Aluno</h1>
 
-    <?php
-    // Exibe a mensagem de sucesso ou erro após o cadastro
-    if (isset($mensagem)) {
-        echo "<p>$mensagem</p>";
-    }
-    ?>
-    
-    <form action="cadastrar_aluno.php" method="POST">
-        <label for="nome_aluno">Nome do Aluno:</label>
-        <input type="text" id="nome_aluno" name="nome_aluno" required><br><br>
+    <?php if (isset($mensagem)) : ?>
+        <div class="alert alert-info">
+            <?= $mensagem ?>
+        </div>
+    <?php endif; ?>
 
-        <label for="cpf_aluno">CPF:</label>
-        <input type="text" id="cpf_aluno" name="cpf_aluno" required><br><br>
+    <div class="card aluno-card">
+        <div class="card-body">
+            <form action="cadastrar_aluno.php" method="POST">
 
-        <label for="data_nascimento_aluno">Data de Nascimento:</label>
-        <input type="date" id="data_nascimento_aluno" name="data_nascimento_aluno" required><br><br>
+                <div class="form-group">
+                    <label for="nome_aluno">Nome do Aluno:</label>
+                    <input type="text" id="nome_aluno" name="nome_aluno" class="form-control" required>
+                </div>
 
-        <label for="sexo_aluno">Sexo:</label>
-        <select id="sexo_aluno" name="sexo_aluno" required>
-            <option value="M">Masculino</option>
-            <option value="F">Feminino</option>
-        </select><br><br>
+                <div class="form-group">
+                    <label for="cpf_aluno">CPF:</label>
+                    <input type="text" id="cpf_aluno" name="cpf_aluno" class="form-control" required>
+                </div>
 
-        <label for="contato_aluno">Contato:</label>
-        <input type="text" id="contato_aluno" name="contato_aluno" required><br><br>
+                <div class="form-group">
+                    <label for="data_nascimento_aluno">Data de Nascimento:</label>
+                    <input type="date" id="data_nascimento_aluno" name="data_nascimento_aluno" class="form-control" required>
+                </div>
 
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br><br>
+                <div class="form-group">
+                    <label for="sexo_aluno">Sexo:</label>
+                    <select id="sexo_aluno" name="sexo_aluno" class="form-control" required>
+                        <option value="M">Masculino</option>
+                        <option value="F">Feminino</option>
+                    </select>
+                </div>
 
-        <button type="submit">Cadastrar</button>
-    </form>
+                <div class="form-group">
+                    <label for="contato_aluno">Contato:</label>
+                    <input type="text" id="contato_aluno" name="contato_aluno" class="form-control" required>
+                </div>
 
-    <a href="../includes/gerenciar_aluno.php">Voltar</a>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" class="form-control" required>
+                </div>
+
+                <button type="submit" class="btn btn-success btn-lg btn-block">Cadastrar</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="../includes/gerenciar_aluno.php" class="btn btn-outline-primary">Voltar</a>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
