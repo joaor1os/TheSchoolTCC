@@ -6,46 +6,20 @@ class SalaAluno {
         $this->conn = $db;
     }
 
-    public function buscarAlunos() {
-        $query = "SELECT id_aluno, nome_aluno FROM aluno";
-        $result = $this->conn->query($query);
-        $alunos = [];
-        while ($row = $result->fetch_assoc()) {
-            $alunos[] = $row;
+    // Método para cadastrar o aluno na sala e automaticamente inserir na tabela 'notas'
+    public function cadastrar($aluno_sa, $sala_sa, $ativo_sa) {
+        if ($this->alunoCadastradoNaSala($aluno_sa, $sala_sa)) {
+            return "Este aluno já está cadastrado na sala.";
         }
-        return $alunos;
-    }
 
-    public function buscarAlunoPorId($id_sa) {
-        $query = "SELECT aluno_sa, ativo_sa FROM sala_alunos WHERE id_sa = ?";
+        $query = "INSERT INTO sala_alunos (aluno_sa, sala_sa, ativo_sa) VALUES (?, ?, ?)";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("i", $id_sa);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_assoc();
-    }
-
-    public function buscarAlunosPorNome($nome) {
-        $query = "SELECT id_aluno, nome_aluno, sobrenome_aluno FROM aluno WHERE nome_aluno LIKE ?";
-        $stmt = $this->conn->prepare($query);
-        $nome = "%$nome%";
-        $stmt->bind_param("s", $nome);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $alunos = [];
-        while ($row = $result->fetch_assoc()) {
-            $alunos[] = $row;
+        $stmt->bind_param("iii", $aluno_sa, $sala_sa, $ativo_sa);
+        if ($stmt->execute()) {
+            $this->cadastrarNotasParaAluno($aluno_sa, $sala_sa);
+            return true;
         }
-        return $alunos;
-    }
-
-    public function alunoCadastradoNaSala($aluno_sa, $sala_sa) {
-        $query = "SELECT * FROM sala_alunos WHERE aluno_sa = ? AND sala_sa = ?";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("ii", $aluno_sa, $sala_sa);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->num_rows > 0;
+        return false;
     }
 
     public function listarAlunosNaSala($sala_sa) {
@@ -61,6 +35,88 @@ class SalaAluno {
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
+
+    public function cadastrarNotasParaAluno($aluno_sa, $sala_sa) {
+        // Verifica se há disciplinas associadas à sala através da tabela 'serie'
+        $queryDisciplinas = "SELECT d.id_disciplina 
+                             FROM salas sa
+                             JOIN serie s ON sa.serie_sala = s.id_serie
+                             JOIN disciplinas d ON d.id_disciplina IN (s.disciplina1, s.disciplina2, s.disciplina3, s.disciplina4, s.disciplina5)
+                             WHERE sa.id_sala = ?";
+        $stmtDisciplinas = $this->conn->prepare($queryDisciplinas);
+        $stmtDisciplinas->bind_param("i", $sala_sa);
+        $stmtDisciplinas->execute();
+        $resultDisciplinas = $stmtDisciplinas->get_result();
+    
+        // Verifica se há disciplinas associadas à sala
+        if ($resultDisciplinas->num_rows == 0) {
+            // Se não houver disciplinas, pode exibir uma mensagem ou retornar um erro
+            echo "Não há disciplinas associadas a esta sala.";
+            return; // Ou retornar algum valor específico de erro
+        }
+    
+        // Insere uma nota para cada disciplina associada à sala
+        while ($disciplina = $resultDisciplinas->fetch_assoc()) {
+            $queryNota = "INSERT INTO notas (aluno_nota, disciplina_nota, sala_nota, bimestre_nota) 
+                          VALUES (?, ?, ?, ?)";
+            $stmtNota = $this->conn->prepare($queryNota);
+    
+            // Adicionando notas para os quatro bimestres
+            for ($bimestre = 1; $bimestre <= 4; $bimestre++) {
+                $stmtNota->bind_param("iiii", $aluno_sa, $disciplina['id_disciplina'], $sala_sa, $bimestre);
+                $stmtNota->execute();
+            }
+        }
+    
+        // Fechando a consulta
+        $stmtDisciplinas->close();
+        $stmtNota->close();
+    }
+    
+ public function buscarAlunoPorId($id_sa) {
+        $query = "SELECT aluno_sa, ativo_sa FROM sala_alunos WHERE id_sa = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $id_sa);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
+
+    public function alunoCadastradoNaSala($aluno_sa, $sala_sa) {
+        $query = "SELECT * FROM sala_alunos WHERE aluno_sa = ? AND sala_sa = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("ii", $aluno_sa, $sala_sa);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->num_rows > 0;
+    }
+
+
+    public function buscarAlunos() {
+        $query = "SELECT id_aluno, nome_aluno FROM aluno";
+        $result = $this->conn->query($query);
+        $alunos = [];
+        while ($row = $result->fetch_assoc()) {
+            $alunos[] = $row;
+        }
+        return $alunos;
+    }
+
+
+    public function buscarAlunosPorNome($nome) {
+        $query = "SELECT id_aluno, nome_aluno, sobrenome_aluno FROM aluno WHERE nome_aluno LIKE ?";
+        $stmt = $this->conn->prepare($query);
+        $nome = "%$nome%";
+        $stmt->bind_param("s", $nome);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $alunos = [];
+        while ($row = $result->fetch_assoc()) {
+            $alunos[] = $row;
+        }
+        return $alunos;
+    }
+
 
     public function atualizar($id_sa, $aluno_sa, $ativo_sa) {
         $query = "UPDATE sala_alunos SET aluno_sa = ?, ativo_sa = ? WHERE id_sa = ?";
@@ -95,30 +151,5 @@ class SalaAluno {
         return $situacoes;
     }
 
-    // Método para cadastrar o aluno na sala e automaticamente inserir na tabela 'notas'
-    public function cadastrar($aluno_sa, $sala_sa, $ativo_sa) {
-        // Verifica se o aluno já está na sala
-        if ($this->alunoCadastradoNaSala($aluno_sa, $sala_sa)) {
-            return "Este aluno já está cadastrado na sala.";
-        }
-
-        // Insere o aluno na sala
-        $query = "INSERT INTO sala_alunos (aluno_sa, sala_sa, ativo_sa) VALUES (?, ?, ?)";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("iii", $aluno_sa, $sala_sa, $ativo_sa);
-        if ($stmt->execute()) {
-            // Insere uma linha na tabela 'notas' após o aluno ser cadastrado na sala
-            return $this->cadastrarNota($aluno_sa, $sala_sa) ? "Aluno cadastrado com sucesso!" : "Erro ao cadastrar a nota.";
-        }
-        return "Erro ao cadastrar aluno.";
-    }
-
-    // Método para inserir a nota do aluno automaticamente
-    private function cadastrarNota($aluno_sa, $sala_sa) {
-        $query = "INSERT INTO notas (id_aluno_nota, id_sala_nota) VALUES (?, ?)";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("ii", $aluno_sa, $sala_sa);
-        return $stmt->execute();
-    }
 }
 ?>

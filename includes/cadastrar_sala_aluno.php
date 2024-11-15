@@ -1,6 +1,8 @@
 <?php
 session_start();
+
 include_once 'db.php';
+include_once '../includes/class/SalaAluno.php';
 
 $database = new Database();
 $db = $database->conn;
@@ -12,38 +14,6 @@ function redirecionarComMensagem($mensagem, $url = 'gerenciar_salas.php') {
             window.location.href = '$url';
           </script>";
     exit;
-}
-
-// Classe SalaAluno para manipular o cadastro de alunos em sala
-class SalaAluno {
-    private $db;
-
-    public function __construct($db) {
-        $this->db = $db;
-    }
-
-    public function alunoCadastradoNaSala($aluno_sa, $sala_sa) {
-        $query = "SELECT id_sa FROM sala_alunos WHERE aluno_sa = ? AND sala_sa = ?";
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param("ii", $aluno_sa, $sala_sa);
-        $stmt->execute();
-        $stmt->store_result();
-        return $stmt->num_rows > 0;
-    }
-
-    public function cadastrarAluno($aluno_sa, $sala_sa, $ativo_sa) {
-        $query = "INSERT INTO sala_alunos (aluno_sa, sala_sa, ativo_sa) VALUES (?, ?, ?)";
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param("iii", $aluno_sa, $sala_sa, $ativo_sa);
-        return $stmt->execute();
-    }
-
-    public function cadastrarNota($aluno_sa, $sala_sa) {
-        $query = "INSERT INTO notas (id_aluno_nota, id_sala_nota) VALUES (?, ?)";
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param("ii", $aluno_sa, $sala_sa);
-        return $stmt->execute();
-    }
 }
 
 // Instância da classe SalaAluno
@@ -63,13 +33,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($salaAluno->alunoCadastradoNaSala($aluno_sa, $sala_sa)) {
         redirecionarComMensagem('Este aluno já está cadastrado nesta sala.');
     } else {
-        if ($salaAluno->cadastrarAluno($aluno_sa, $sala_sa, $ativo_sa)) {
-            // Inserir o aluno na tabela 'notas' após o cadastro na sala
-            if ($salaAluno->cadastrarNota($aluno_sa, $sala_sa)) {
-                redirecionarComMensagem('Aluno cadastrado com sucesso!');
-            } else {
-                redirecionarComMensagem('Erro ao cadastrar nota.');
-            }
+        // Cadastrar aluno na sala e criar registros de notas para cada disciplina associada
+        if ($salaAluno->cadastrar($aluno_sa, $sala_sa, $ativo_sa)) {
+            $salaAluno->cadastrarNotasParaAluno($aluno_sa, $sala_sa); // Cria as notas para cada disciplina
+            redirecionarComMensagem('Aluno e notas cadastrados com sucesso!');
         } else {
             redirecionarComMensagem('Erro ao cadastrar aluno.');
         }
@@ -108,7 +75,7 @@ $result_alunos_cadastrados = $stmt_alunos_cadastrados->get_result();
 <head>
     <meta charset="UTF-8">
     <title>Cadastrar Aluno na Sala</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" >
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/room/registerSalaAluno.css">
 </head>
 <body>
@@ -192,4 +159,3 @@ $result_alunos_cadastrados = $stmt_alunos_cadastrados->get_result();
     </script>
 </body>
 </html>
-
