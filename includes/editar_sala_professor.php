@@ -18,6 +18,14 @@ if (isset($_GET['id_sp'])) {
         exit;
     }
 
+    // Consulta para obter o nome da disciplina ao invés do ID
+    $queryDisciplina = "SELECT nome_disciplina FROM disciplinas WHERE id_disciplina = ?";
+    $stmtDisciplina = $db->prepare($queryDisciplina);
+    $stmtDisciplina->bind_param("i", $professor['disciplina_professor']);
+    $stmtDisciplina->execute();
+    $resultDisciplina = $stmtDisciplina->get_result();
+    $disciplina = $resultDisciplina->fetch_assoc();
+
     // Busca os professores da mesma disciplina
     $professores = $salaProfessor->buscarProfessoresPorDisciplina($professor['disciplina_professor']);
 } else {
@@ -39,7 +47,7 @@ if (isset($_GET['id_sp'])) {
         <h1 class="text-center mb-4 titulo-azul fadeIn">Editar Professor na Sala</h1>
         
         <div class="card p-4 shadow-sm mb-4">
-            <p>Professor: <strong><?= $professor['nome_funcionario']; ?></strong> (Disciplina: <?= $professor['disciplina_professor'] ? $professor['disciplina_professor'] : 'Disciplina não encontrada'; ?>)</p>
+            <p>Professor: <strong><?= $professor['nome_funcionario']; ?></strong> (Disciplina: <?= $disciplina['nome_disciplina'] ?? 'Disciplina não encontrada'; ?>)</p>
 
             <form method="POST" action="atualizar_sala_professor.php">
                 <input type="hidden" name="id_sp" value="<?= $id_sp; ?>">
@@ -66,4 +74,3 @@ if (isset($_GET['id_sp'])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-

@@ -71,9 +71,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <a href="editar_funcionario.php?id=<?= $func['id_funcionario']; ?>">
                                 <button class="edit">Editar</button>
                             </a>
-                            <form method="POST" action="deletar_funcionario.php" style="display:inline;">
-                                <input type="hidden" name="id_funcionario" value="<?= $func['id_funcionario']; ?>">
-                                <button type="submit" class="delete">Excluir</button>
                             </form>
                         </div>
                     </div>
