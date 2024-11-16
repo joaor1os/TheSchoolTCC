@@ -166,26 +166,54 @@ insert into bimestres(nome_bimestre) values
 	("3º Bimestre"),
 	("4º Bimestre");
 
-create table notas(
-	id_nota int primary key auto_increment,
-    id_aluno_nota int not null,
-    id_sala_nota int not null,
-    foreign key (id_aluno_nota) references sala_alunos(aluno_sa),
-    foreign key (id_sala_nota) references salas(id_sala)
+CREATE TABLE notas (
+  id_nota int primary key auto_increment,
+  aluno_nota int  not null,
+  disciplina_nota int not null,
+  sala_nota int(11) not null,
+  bimestre_nota int(11) not null,
+  nota1 float,
+  nota2 float,
+  nota3 float,
+  media float GENERATED ALWAYS AS ((nota1 + nota2 + nota3) / 3) STORED,
+  foreign key (aluno_nota) references aluno (id_aluno),
+  foreign key (disciplina_nota) references disciplinas (id_disciplina),
+  foreign key (sala_nota) references salas (id_sala),
+  foreign key (bimestre_nota) references bimestres (id_bimestre)
 );
 
 
-create table notas_aluno(
-	id_na int primary key auto_increment,
-    disciplina_na int not null,
-    nota_na int not null,
-    bimestre_na int not null,
-    nota1 float,
-    nota2 float,
-    nota3 float,
-    media float,
-    foreign key (disciplina_na) references professor(disciplina_professor),
-    foreign key (nota_na) references notas(id_nota),
-    foreign key (bimestre_na) references bimestres(id_bimestre)
+create table mf_situacao(
+	id_st_mf int primary key auto_increment,
+    nome_st_mf varchar(20) not null
 );
+
+insert into mf_situacao (nome_st_mf) values
+('Indefinida'),
+('Aprovado'),
+('Reprovado');
+
+
+CREATE TABLE mf_aluno (
+    id_mf int primary key auto_increment,
+    aluno_mf int not null,
+    disciplina_mf int not null,
+    media_final float not null,
+    sala_mf int not null,
+    situacao_mf int not null,
+    foreign key (aluno_mf) references aluno(id_aluno),
+    foreign key (disciplina_mf) references disciplinas(id_disciplina),
+    foreign key (sala_mf) references salas(id_sala),
+    foreign key (situacao_mf) references mf_situacao(id_st_mf)
+);
+
+create table ano_letivo(
+	id_ano_letivo int primary key auto_increment,
+    ano_letivo int not null
+);
+
+insert into ano_letivo(ano_letivo) values
+(2024);
+
+
 

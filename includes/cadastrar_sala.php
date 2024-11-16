@@ -9,8 +9,13 @@ $db = $database->conn;
 $sala = new Sala($db);
 $mensagem = '';
 
+// Obter o ano letivo atual
+$query_ano_letivo = "SELECT ano_letivo FROM ano_letivo WHERE id_ano_letivo = 1";
+$result_ano = $db->query($query_ano_letivo);
+$ano_letivo_atual = $result_ano->fetch_assoc()['ano_letivo'];
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $ano_sala = $_POST['ano_sala'];
+    $ano_sala = $ano_letivo_atual; // Ano letivo puxado automaticamente
     $serie_sala = $_POST['serie_sala'];
     $ativa_sala = $_POST['ativa_sala'];
 
@@ -43,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <form method="POST" action="cadastrar_sala.php">
         <div class="form-group">
             <label for="ano_sala">Ano:</label>
-            <input type="number" id="ano_sala" name="ano_sala" class="form-control" required>
+            <input type="number" id="ano_sala" name="ano_sala" class="form-control" value="<?= $ano_letivo_atual ?>" readonly>
         </div>
 
         <div class="form-group">

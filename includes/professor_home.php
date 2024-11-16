@@ -72,7 +72,10 @@ if (isset($_SESSION['user_id']) && $_SESSION['user_type'] === 'professor') {
 
                         <!-- Ajuste aqui para acessar a disciplina correta -->
                         <?php if (isset($disciplinas[$sala['disciplina_professor']])): ?>
-                            <a href="gerenciar_notas.php?sala_id=<?php echo $sala['id_sala']; ?>&disciplina_id=<?php echo $sala['disciplina_professor']; ?>" class="btn btn-primary">Gerenciar Notas</a>
+                            <a href="gerenciar_notas.php?sala_id=<?php echo $sala['id_sala']; ?>&disciplina_id=<?php echo $sala['disciplina_professor']; ?>" class="btn btn-primary">Gerenciar Notas - Bimestres</a>
+                        <?php endif; ?>
+                        <?php if (isset($disciplinas[$sala['disciplina_professor']])): ?>
+                            <a href="gerenciar_notas_finais.php?sala_id=<?php echo $sala['id_sala']; ?>&disciplina_id=<?php echo $sala['disciplina_professor']; ?>" class="btn btn-primary">Gerenciar Notas - Finais</a>
                         <?php endif; ?>
                     </div>
                 <?php endwhile; ?>

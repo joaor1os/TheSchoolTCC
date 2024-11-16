@@ -39,7 +39,7 @@ CREATE TABLE `aluno` (
   UNIQUE KEY `email` (`email`),
   KEY `situacao_aluno` (`situacao_aluno`),
   CONSTRAINT `aluno_ibfk_1` FOREIGN KEY (`situacao_aluno`) REFERENCES `situacao` (`id_situacao`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -48,8 +48,32 @@ CREATE TABLE `aluno` (
 
 LOCK TABLES `aluno` WRITE;
 /*!40000 ALTER TABLE `aluno` DISABLE KEYS */;
-INSERT INTO `aluno` VALUES (1,'12345678901','João Silva','2008-05-15','M',1,'11987654321','joao.silva@email.com','senha123'),(2,'23456789012','Maria Oliveira','2007-09-20','F',1,'11976543210','maria.oliveira@email.com','senha456'),(3,'34567890123','Lucas Pereira','2008-02-10','M',1,'11965432109','lucas.pereira@email.com','senha789'),(4,'45678901234','Ana Costa','2007-12-05','F',1,'11954321098','ana.costa@email.com','senha321'),(5,'56789012345','Rafael Almeida','2008-03-25','M',1,'11943210987','rafael.almeida@email.com','senha654'),(6,'67890123456','Beatriz Souza','2007-07-11','F',1,'11932109876','beatriz.souza@email.com','senha987'),(7,'78901234567','Carlos Lima','2008-08-17','M',1,'11921098765','carlos.lima@email.com','senha111'),(8,'89012345678','Juliana Rocha','2007-11-30','F',1,'11910987654','juliana.rocha@email.com','senha222'),(9,'90123456789','Felipe Costa','2008-01-22','M',1,'11909876543','felipe.costa@email.com','senha333'),(10,'01234567890','Fernanda Martins','2007-04-08','F',1,'11998765432','fernanda.martins@email.com','senha444'),(11,'12309876543','Mateus Fernandes','2008-06-30','M',1,'11987654321','mateus.fernandes@email.com','senha555'),(12,'23498765432','Isabela Santos','2007-10-14','F',1,'11976543210','isabela.santos@email.com','senha666'),(13,'34587654321','Gustavo Ribeiro','2008-09-02','M',1,'11965432109','gustavo.ribeiro@email.com','senha777'),(14,'45676543210','Larissa Almeida','2007-03-17','F',1,'11954321098','larissa.almeida@email.com','senha888'),(15,'56765432109','Eduardo Silva','2008-12-24','M',1,'11943210987','eduardo.silva@email.com','senha999'),(16,'67854321098','Carolina Oliveira','2007-05-06','F',1,'11932109876','carolina.oliveira@email.com','senha000'),(17,'78943210987','Henrique Costa','2008-10-13','M',1,'11921098765','henrique.costa@email.com','senha1234'),(18,'89032109876','Vanessa Souza','2007-02-25','F',1,'11910987654','vanessa.souza@email.com','senha2345'),(19,'90121098765','Marcos Rocha','2008-11-03','M',1,'11909876543','marcos.rocha@email.com','senha3456');
+INSERT INTO `aluno` VALUES (1,'12345678901','João Silva Santos','2013-05-15','M',1,'11987654321','joao.silva@email.com','senha123'),(2,'12345678902','Maria Oliveira Costa','2013-03-22','F',1,'11987654322','maria.oliveira@email.com','senha123'),(3,'12345678903','Pedro Souza Lima','2013-07-11','M',1,'11987654323','pedro.souza@email.com','senha123'),(4,'12345678904','Ana Costa Pereira','2013-02-18','F',1,'11987654324','ana.costa@email.com','senha123'),(5,'12345678905','Carlos Lima Rocha','2013-10-05','M',1,'11987654325','carlos.lima@email.com','senha123'),(6,'12345678906','Larissa Santos Almeida','2013-06-13','F',1,'11987654326','larissa.santos@email.com','senha123'),(7,'12345678907','Gustavo Pereira Silva','2013-04-02','M',1,'11987654327','gustavo.pereira@email.com','senha123'),(8,'12345678908','Julia Fernandes Costa','2013-08-29','F',1,'11987654328','julia.fernandes@email.com','senha123'),(9,'12345678909','Lucas Almeida Souza','2013-01-30','M',1,'11987654329','lucas.almeida@email.com','senha123'),(10,'12345678910','Beatriz Rocha Lima','2013-09-09','F',1,'11987654330','beatriz.rocha@email.com','senha123'),(11,'12345678911','Rafael Martins Souza','2012-06-15','M',1,'11987654331','rafael.martins@email.com','senha123'),(12,'12345678912','Fernanda Ribeiro Silva','2012-01-28','F',1,'11987654332','fernanda.ribeiro@email.com','senha123'),(13,'12345678913','Vinícius Castro Pereira','2012-11-03','M',1,'11987654333','vinicius.castro@email.com','senha123'),(14,'12345678914','Marcela Dias Almeida','2012-04-20','F',1,'11987654334','marcela.dias@email.com','senha123'),(15,'12345678915','Bruno Gomes Rocha','2012-07-09','M',1,'11987654335','bruno.gomes@email.com','senha123'),(16,'12345678916','Amanda Silva Santos','2012-12-01','F',1,'11987654336','amanda.silva@email.com','senha123'),(17,'12345678917','Diego Oliveira Costa','2012-02-14','M',1,'11987654337','diego.oliveira@email.com','senha123'),(18,'12345678918','Camila Souza Lima','2012-09-05','F',1,'11987654338','camila.souza@email.com','senha123'),(19,'12345678919','Felipe Pereira Rocha','2012-05-10','M',1,'11987654339','felipe.pereira@email.com','senha123'),(20,'12345678920','Isabela Costa Almeida','2012-08-27','F',1,'11987654340','isabela.costa@email.com','senha123'),(21,'12345678921','Amanda Souza Lima','2010-06-25','F',1,'11987654341','amanda.souza@email.com','senha123'),(22,'12345678922','Lucas Martins Pereira','2010-03-12','M',1,'11987654342','lucas.martins@email.com','senha123'),(23,'12345678923','Vanessa Lima Rocha','2010-08-18','F',1,'11987654343','vanessa.lima@email.com','senha123'),(24,'12345678924','Roberto Silva Costa','2010-12-03','M',1,'11987654344','roberto.silva@email.com','senha123'),(25,'12345678925','Juliana Costa Pereira','2010-04-20','F',1,'11987654345','juliana.costa@email.com','senha123'),(26,'12345678926','Carlos Almeida Silva','2010-10-01','M',1,'11987654346','carlos.almeida@email.com','senha123'),(27,'12345678927','Gustavo Ferreira Lima','2010-07-14','M',1,'11987654347','gustavo.ferreira@email.com','senha123'),(28,'12345678928','Aline Santos Pereira','2010-09-22','F',1,'11987654348','aline.santos@email.com','senha123'),(29,'12345678929','Mário Rocha Almeida','2010-11-10','M',1,'11987654349','mario.rocha@email.com','senha123'),(30,'12345678930','Sofia Oliveira Costa','2010-05-30','F',1,'11987654350','sofia.oliveira@email.com','senha123'),(31,'12345678931','Renato Ferreira Silva','2009-01-10','M',1,'11987654351','renato.ferreira@email.com','senha123'),(32,'12345678932','Cláudia Mendes Souza','2009-11-25','F',1,'11987654352','claudia.mendes@email.com','senha123'),(33,'12345678933','Márcio Rocha Costa','2009-06-30','M',1,'11987654353','marcio.rocha@email.com','senha123'),(34,'12345678934','Patrícia Almeida Lima','2009-04-12','F',1,'11987654354','patricia.almeida@email.com','senha123'),(35,'12345678935','Eduardo Costa Pereira','2009-07-07','M',1,'11987654355','eduardo.costa@email.com','senha123'),(36,'12345678936','Isabel Santos Lima','2009-02-22','F',1,'11987654356','isabel.santos@email.com','senha123'),(37,'12345678937','Rogério Lima Pereira','2009-09-04','M',1,'11987654357','rogerio.lima@email.com','senha123'),(38,'12345678938','Elaine Souza Rocha','2009-12-15','F',1,'11987654358','elaine.souza@email.com','senha123'),(39,'12345678939','Fernando Oliveira Lima','2009-03-19','M',1,'11987654359','fernando.oliveira@email.com','senha123'),(40,'12345678940','Carla Martins Souza','2009-10-25','F',1,'11987654360','carla.martins@email.com','senha123');
 /*!40000 ALTER TABLE `aluno` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ano_letivo`
+--
+
+DROP TABLE IF EXISTS `ano_letivo`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ano_letivo` (
+  `id_ano_letivo` int(11) NOT NULL AUTO_INCREMENT,
+  `ano_letivo` int(11) NOT NULL,
+  PRIMARY KEY (`id_ano_letivo`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ano_letivo`
+--
+
+LOCK TABLES `ano_letivo` WRITE;
+/*!40000 ALTER TABLE `ano_letivo` DISABLE KEYS */;
+INSERT INTO `ano_letivo` VALUES (1,2024);
+/*!40000 ALTER TABLE `ano_letivo` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -67,7 +91,7 @@ CREATE TABLE `aulas` (
   PRIMARY KEY (`id_aula`),
   KEY `disciplina_aula` (`disciplina_aula`),
   CONSTRAINT `aulas_ibfk_1` FOREIGN KEY (`disciplina_aula`) REFERENCES `professor` (`disciplina_professor`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -76,7 +100,6 @@ CREATE TABLE `aulas` (
 
 LOCK TABLES `aulas` WRITE;
 /*!40000 ALTER TABLE `aulas` DISABLE KEYS */;
-INSERT INTO `aulas` VALUES (1,'2024-11-15 08:57:18',1,4);
 /*!40000 ALTER TABLE `aulas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -163,7 +186,7 @@ CREATE TABLE `funcionario_instituicao` (
 
 LOCK TABLES `funcionario_instituicao` WRITE;
 /*!40000 ALTER TABLE `funcionario_instituicao` DISABLE KEYS */;
-INSERT INTO `funcionario_instituicao` VALUES (1,'44368446844','Joao','2002-12-26','M',1,'16992577068',2,'joaoarios@hotmail.com','$2y$10$04YKMfinoyQ9ioP8bPdrne8FVxCxP2ks35XgY8cXjZpdqtEQ/j7JW');
+INSERT INTO `funcionario_instituicao` VALUES (1,'44455566677','Joao','1111-11-11','M',1,'1235671212',2,'joaoarios@hotmail.com','$2y$10$oM13Mo/DwScfW3FSj84Yy.iohUakKtfoHwcNjnOjo1jwXgDC9uqy6');
 /*!40000 ALTER TABLE `funcionario_instituicao` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -194,6 +217,66 @@ INSERT INTO `instituicao` VALUES (1,'TheSchool','tcc@email.com','1234');
 UNLOCK TABLES;
 
 --
+-- Table structure for table `mf_aluno`
+--
+
+DROP TABLE IF EXISTS `mf_aluno`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `mf_aluno` (
+  `id_mf` int(11) NOT NULL AUTO_INCREMENT,
+  `aluno_mf` int(11) NOT NULL,
+  `disciplina_mf` int(11) NOT NULL,
+  `media_final` float NOT NULL,
+  `sala_mf` int(11) NOT NULL,
+  `situacao_mf` int(11) NOT NULL,
+  PRIMARY KEY (`id_mf`),
+  KEY `aluno_mf` (`aluno_mf`),
+  KEY `disciplina_mf` (`disciplina_mf`),
+  KEY `sala_mf` (`sala_mf`),
+  KEY `situacao_mf` (`situacao_mf`),
+  CONSTRAINT `mf_aluno_ibfk_1` FOREIGN KEY (`aluno_mf`) REFERENCES `aluno` (`id_aluno`),
+  CONSTRAINT `mf_aluno_ibfk_2` FOREIGN KEY (`disciplina_mf`) REFERENCES `disciplinas` (`id_disciplina`),
+  CONSTRAINT `mf_aluno_ibfk_3` FOREIGN KEY (`sala_mf`) REFERENCES `salas` (`id_sala`),
+  CONSTRAINT `mf_aluno_ibfk_4` FOREIGN KEY (`situacao_mf`) REFERENCES `mf_situacao` (`id_st_mf`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `mf_aluno`
+--
+
+LOCK TABLES `mf_aluno` WRITE;
+/*!40000 ALTER TABLE `mf_aluno` DISABLE KEYS */;
+INSERT INTO `mf_aluno` VALUES (1,1,1,0,1,1),(2,1,2,0,1,1),(3,1,3,0,1,1),(4,1,4,0,1,1),(5,1,5,6,1,2),(6,4,1,0,1,1),(7,4,2,0,1,1),(8,4,3,0,1,1),(9,4,4,0,1,1),(10,4,5,7,1,2);
+/*!40000 ALTER TABLE `mf_aluno` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `mf_situacao`
+--
+
+DROP TABLE IF EXISTS `mf_situacao`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `mf_situacao` (
+  `id_st_mf` int(11) NOT NULL AUTO_INCREMENT,
+  `nome_st_mf` varchar(20) NOT NULL,
+  PRIMARY KEY (`id_st_mf`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `mf_situacao`
+--
+
+LOCK TABLES `mf_situacao` WRITE;
+/*!40000 ALTER TABLE `mf_situacao` DISABLE KEYS */;
+INSERT INTO `mf_situacao` VALUES (1,'Indefinida'),(2,'Aprovado'),(3,'Reprovado');
+/*!40000 ALTER TABLE `mf_situacao` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `notas`
 --
 
@@ -219,7 +302,7 @@ CREATE TABLE `notas` (
   CONSTRAINT `notas_ibfk_2` FOREIGN KEY (`disciplina_nota`) REFERENCES `disciplinas` (`id_disciplina`),
   CONSTRAINT `notas_ibfk_3` FOREIGN KEY (`sala_nota`) REFERENCES `salas` (`id_sala`),
   CONSTRAINT `notas_ibfk_4` FOREIGN KEY (`bimestre_nota`) REFERENCES `bimestres` (`id_bimestre`)
-) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -228,7 +311,7 @@ CREATE TABLE `notas` (
 
 LOCK TABLES `notas` WRITE;
 /*!40000 ALTER TABLE `notas` DISABLE KEYS */;
-INSERT INTO `notas` (`id_nota`, `aluno_nota`, `disciplina_nota`, `sala_nota`, `bimestre_nota`, `nota1`, `nota2`, `nota3`) VALUES (1,7,1,1,1,NULL,NULL,NULL),(2,7,1,1,2,NULL,NULL,NULL),(3,7,1,1,3,NULL,NULL,NULL),(4,7,1,1,4,NULL,NULL,NULL),(5,7,2,1,1,NULL,NULL,NULL),(6,7,2,1,2,NULL,NULL,NULL),(7,7,2,1,3,NULL,NULL,NULL),(8,7,2,1,4,NULL,NULL,NULL),(9,7,3,1,1,NULL,NULL,NULL),(10,7,3,1,2,NULL,NULL,NULL),(11,7,3,1,3,NULL,NULL,NULL),(12,7,3,1,4,NULL,NULL,NULL),(13,7,4,1,1,1,7,9),(14,7,4,1,2,0,0,0),(15,7,4,1,3,10,10,10),(16,7,4,1,4,0,0,0),(17,7,5,1,1,NULL,NULL,NULL),(18,7,5,1,2,NULL,NULL,NULL),(19,7,5,1,3,NULL,NULL,NULL),(20,7,5,1,4,NULL,NULL,NULL),(21,7,1,1,1,NULL,NULL,NULL),(22,7,1,1,2,NULL,NULL,NULL),(23,7,1,1,3,NULL,NULL,NULL),(24,7,1,1,4,NULL,NULL,NULL),(25,7,2,1,1,NULL,NULL,NULL),(26,7,2,1,2,NULL,NULL,NULL),(27,7,2,1,3,NULL,NULL,NULL),(28,7,2,1,4,NULL,NULL,NULL),(29,7,3,1,1,NULL,NULL,NULL),(30,7,3,1,2,NULL,NULL,NULL),(31,7,3,1,3,NULL,NULL,NULL),(32,7,3,1,4,NULL,NULL,NULL),(33,7,4,1,1,0,0,0),(34,7,4,1,2,0,0,0),(35,7,4,1,3,0,0,0),(36,7,4,1,4,0,0,0),(37,7,5,1,1,NULL,NULL,NULL),(38,7,5,1,2,NULL,NULL,NULL),(39,7,5,1,3,NULL,NULL,NULL),(40,7,5,1,4,NULL,NULL,NULL),(41,10,1,1,1,NULL,NULL,NULL),(42,10,1,1,2,NULL,NULL,NULL),(43,10,1,1,3,NULL,NULL,NULL),(44,10,1,1,4,NULL,NULL,NULL),(45,10,2,1,1,NULL,NULL,NULL),(46,10,2,1,2,NULL,NULL,NULL),(47,10,2,1,3,NULL,NULL,NULL),(48,10,2,1,4,NULL,NULL,NULL),(49,10,3,1,1,NULL,NULL,NULL),(50,10,3,1,2,NULL,NULL,NULL),(51,10,3,1,3,NULL,NULL,NULL),(52,10,3,1,4,NULL,NULL,NULL),(53,10,4,1,1,7.88,10,3.32),(54,10,4,1,2,0,0,0),(55,10,4,1,3,0,0,0),(56,10,4,1,4,NULL,NULL,NULL),(57,10,5,1,1,NULL,NULL,NULL),(58,10,5,1,2,NULL,NULL,NULL),(59,10,5,1,3,NULL,NULL,NULL),(60,10,5,1,4,NULL,NULL,NULL),(61,10,1,1,1,NULL,NULL,NULL),(62,10,1,1,2,NULL,NULL,NULL),(63,10,1,1,3,NULL,NULL,NULL),(64,10,1,1,4,NULL,NULL,NULL),(65,10,2,1,1,NULL,NULL,NULL),(66,10,2,1,2,NULL,NULL,NULL),(67,10,2,1,3,NULL,NULL,NULL),(68,10,2,1,4,NULL,NULL,NULL),(69,10,3,1,1,NULL,NULL,NULL),(70,10,3,1,2,NULL,NULL,NULL),(71,10,3,1,3,NULL,NULL,NULL),(72,10,3,1,4,NULL,NULL,NULL),(73,10,4,1,1,0,0,0),(74,10,4,1,2,0,0,0),(75,10,4,1,3,0,0,0),(76,10,4,1,4,0,0,0),(77,10,5,1,1,NULL,NULL,NULL),(78,10,5,1,2,NULL,NULL,NULL),(79,10,5,1,3,NULL,NULL,NULL),(80,10,5,1,4,NULL,NULL,NULL);
+INSERT INTO `notas` (`id_nota`, `aluno_nota`, `disciplina_nota`, `sala_nota`, `bimestre_nota`, `nota1`, `nota2`, `nota3`) VALUES (1,1,1,1,1,NULL,NULL,NULL),(2,1,1,1,2,NULL,NULL,NULL),(3,1,1,1,3,NULL,NULL,NULL),(4,1,1,1,4,NULL,NULL,NULL),(5,1,2,1,1,NULL,NULL,NULL),(6,1,2,1,2,NULL,NULL,NULL),(7,1,2,1,3,NULL,NULL,NULL),(8,1,2,1,4,NULL,NULL,NULL),(9,1,3,1,1,NULL,NULL,NULL),(10,1,3,1,2,NULL,NULL,NULL),(11,1,3,1,3,NULL,NULL,NULL),(12,1,3,1,4,NULL,NULL,NULL),(13,1,4,1,1,NULL,NULL,NULL),(14,1,4,1,2,NULL,NULL,NULL),(15,1,4,1,3,NULL,NULL,NULL),(16,1,4,1,4,NULL,NULL,NULL),(17,1,5,1,1,10,8,7),(18,1,5,1,2,6,6,6),(19,1,5,1,3,6,6,6),(20,1,5,1,4,6,6,6),(21,4,1,1,1,NULL,NULL,NULL),(22,4,1,1,2,NULL,NULL,NULL),(23,4,1,1,3,NULL,NULL,NULL),(24,4,1,1,4,NULL,NULL,NULL),(25,4,2,1,1,NULL,NULL,NULL),(26,4,2,1,2,NULL,NULL,NULL),(27,4,2,1,3,NULL,NULL,NULL),(28,4,2,1,4,NULL,NULL,NULL),(29,4,3,1,1,NULL,NULL,NULL),(30,4,3,1,2,NULL,NULL,NULL),(31,4,3,1,3,NULL,NULL,NULL),(32,4,3,1,4,NULL,NULL,NULL),(33,4,4,1,1,NULL,NULL,NULL),(34,4,4,1,2,NULL,NULL,NULL),(35,4,4,1,3,NULL,NULL,NULL),(36,4,4,1,4,NULL,NULL,NULL),(37,4,5,1,1,10,10,10),(38,4,5,1,2,6,6,6),(39,4,5,1,3,6,6,6),(40,4,5,1,4,6,6,6);
 /*!40000 ALTER TABLE `notas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -249,7 +332,7 @@ CREATE TABLE `presenca_aulas` (
   KEY `aula_realizada` (`aula_realizada`),
   CONSTRAINT `presenca_aulas_ibfk_1` FOREIGN KEY (`aluno_presenca`) REFERENCES `aluno` (`id_aluno`),
   CONSTRAINT `presenca_aulas_ibfk_2` FOREIGN KEY (`aula_realizada`) REFERENCES `aulas` (`id_aula`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -258,7 +341,6 @@ CREATE TABLE `presenca_aulas` (
 
 LOCK TABLES `presenca_aulas` WRITE;
 /*!40000 ALTER TABLE `presenca_aulas` DISABLE KEYS */;
-INSERT INTO `presenca_aulas` VALUES (1,1,'P',1),(2,2,'P',1),(3,8,'P',1),(4,7,'P',1),(5,10,'P',1);
 /*!40000 ALTER TABLE `presenca_aulas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -287,7 +369,7 @@ CREATE TABLE `professor` (
 
 LOCK TABLES `professor` WRITE;
 /*!40000 ALTER TABLE `professor` DISABLE KEYS */;
-INSERT INTO `professor` VALUES (1,1,4);
+INSERT INTO `professor` VALUES (1,1,5);
 /*!40000 ALTER TABLE `professor` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -310,7 +392,7 @@ CREATE TABLE `sala_alunos` (
   CONSTRAINT `sala_alunos_ibfk_1` FOREIGN KEY (`aluno_sa`) REFERENCES `aluno` (`id_aluno`),
   CONSTRAINT `sala_alunos_ibfk_2` FOREIGN KEY (`sala_sa`) REFERENCES `salas` (`id_sala`),
   CONSTRAINT `sala_alunos_ibfk_3` FOREIGN KEY (`ativo_sa`) REFERENCES `situacao` (`id_situacao`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -319,7 +401,7 @@ CREATE TABLE `sala_alunos` (
 
 LOCK TABLES `sala_alunos` WRITE;
 /*!40000 ALTER TABLE `sala_alunos` DISABLE KEYS */;
-INSERT INTO `sala_alunos` VALUES (1,1,1,1),(2,2,1,1),(3,8,1,1),(4,5,1,2),(5,7,1,1),(6,10,1,1);
+INSERT INTO `sala_alunos` VALUES (1,1,1,1),(2,4,1,1);
 /*!40000 ALTER TABLE `sala_alunos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -473,4 +555,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-15  3:11:56
+-- Dump completed on 2024-11-16  1:33:31
