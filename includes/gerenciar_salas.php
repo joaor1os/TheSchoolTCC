@@ -61,7 +61,7 @@ $salasAtivas = $sala->listarSalasAtivas();
                         <td>
                             <a href="../includes/cadastrar_sala_aluno.php?id_sala=<?= $salaAtiva['id_sala']; ?>" class="btn btn-primary btn-sm">Cadastrar Alunos</a>
                             <a href="../includes/visualizar_sala_aluno.php?id_sala=<?= $salaAtiva['id_sala']; ?>" class="btn btn-info btn-sm">Visualizar Alunos</a>
-                            <a href="../includes/visualizar_aprovacoes.php?id_sala=<?= $salaAtiva['id_sala']; ?>" class="btn btn-info btn-sm">Visualizar Aprovações</a>
+                            <a href="../includes/visualizar_aprovacoes.php?id_sala=<?= $salaAtiva['id_sala']; ?>" class="btn btn-secondary btn-sm">Visualizar Aprovações</a>
                         </td>
                         <td>
                             <a href="../includes/cadastrar_sala_professor.php?id_sala=<?= $salaAtiva['id_sala']; ?>" class="btn btn-primary btn-sm">Cadastrar Professores</a>
