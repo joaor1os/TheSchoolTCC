@@ -134,11 +134,11 @@ if ($bimestre) {
 
                                     <tr>
                                         <td><?php echo $nota['nome_aluno']; ?></td>
-                                        <td><input type="number" step="0.1" name="nota1" value="<?php echo $nota['nota1']; ?>" class="form-control" required></td>
-                                        <td><input type="number" step="0.1" name="nota2" value="<?php echo $nota['nota2']; ?>" class="form-control" required></td>
-                                        <td><input type="number" step="0.1" name="nota3" value="<?php echo $nota['nota3']; ?>" class="form-control" required></td>
+                                        <td><input type="number" step="0.1" name="nota1" value="<?php echo $nota['nota1']; ?>" class="form-control" ></td>
+                                        <td><input type="number" step="0.1" name="nota2" value="<?php echo $nota['nota2']; ?>" class="form-control" ></td>
+                                        <td><input type="number" step="0.1" name="nota3" value="<?php echo $nota['nota3']; ?>" class="form-control" ></td>
                                         <td><?php echo number_format($nota['media'], 2); ?></td>
-                                        <td><button type="submit" class="btn btn-warning">Editar</button></td>
+                                        <td><button type="submit" class="btn btn-primary">Editar</button></td>
                                     </tr>
                                 </form>
                             <?php endwhile; ?>
