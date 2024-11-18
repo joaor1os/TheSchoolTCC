@@ -11,42 +11,57 @@ if (isset($_SESSION['user_id']) && $_SESSION['user_type'] === 'professor') {
     $sala_id = isset($_GET['sala_id']) ? $_GET['sala_id'] : null;
     $disciplina_id = isset($_GET['disciplina_id']) ? $_GET['disciplina_id'] : null;
 
-    // Verifica se a sala_id e disciplina_id foram passados corretamente pela URL
     if ($sala_id && $disciplina_id) {
-        // Chama a função de atualização de notas finais automaticamente
         atualizar_notas_finais($sala_id, $disciplina_id);
 
-        // Query para buscar as informações atualizadas
+        // Query para buscar informações atualizadas
         $query = "
             SELECT a.id_aluno, a.nome_aluno, 
+                COALESCE(n1.media, 0) AS media_b1,
+                COALESCE(n2.media, 0) AS media_b2,
+                COALESCE(n3.media, 0) AS media_b3,
+                COALESCE(n4.media, 0) AS media_b4,
                 mfa.media_final AS media_final,
                 mf.nome_st_mf AS situacao
             FROM aluno a
-            INNER JOIN mf_aluno mfa ON a.id_aluno = mfa.aluno_mf AND mfa.sala_mf = ? AND mfa.disciplina_mf = ?
+            LEFT JOIN notas n1 ON a.id_aluno = n1.aluno_nota AND n1.bimestre_nota = 1 AND n1.disciplina_nota = ?
+            LEFT JOIN notas n2 ON a.id_aluno = n2.aluno_nota AND n2.bimestre_nota = 2 AND n2.disciplina_nota = ?
+            LEFT JOIN notas n3 ON a.id_aluno = n3.aluno_nota AND n3.bimestre_nota = 3 AND n3.disciplina_nota = ?
+            LEFT JOIN notas n4 ON a.id_aluno = n4.aluno_nota AND n4.bimestre_nota = 4 AND n4.disciplina_nota = ?
+            LEFT JOIN mf_aluno mfa ON a.id_aluno = mfa.aluno_mf AND mfa.sala_mf = ? AND mfa.disciplina_mf = ?
             LEFT JOIN mf_situacao mf ON mfa.situacao_mf = mf.id_st_mf
+            WHERE EXISTS (
+                SELECT 1 
+                FROM mf_aluno 
+                WHERE mf_aluno.aluno_mf = a.id_aluno 
+                  AND mf_aluno.sala_mf = ? 
+                  AND mf_aluno.disciplina_mf = ?
+            )
             ORDER BY a.nome_aluno;
         ";
 
-        // Preparando e executando a consulta
         $stmt = $conn->prepare($query);
-        $stmt->bind_param("ii", $sala_id, $disciplina_id);
+        $stmt->bind_param("iiiiiiii", $disciplina_id, $disciplina_id, $disciplina_id, $disciplina_id, $sala_id, $disciplina_id, $sala_id, $disciplina_id);
         $stmt->execute();
         $result = $stmt->get_result();
     }
 } else {
-    // Redireciona para a página de login caso o usuário não seja um professor
     header("Location: login.php");
     exit();
 }
 
-// Função para atualizar as notas finais
 function atualizar_notas_finais($sala_id, $disciplina_id) {
     global $conn;
 
-    // Query para calcular a média dos 4 bimestres de cada aluno
+    // Query para calcular a média final com base nos 4 bimestres
     $query = "
         SELECT a.id_aluno,
-            (IFNULL(n1.nota1, 0) + IFNULL(n2.nota1, 0) + IFNULL(n3.nota1, 0) + IFNULL(n4.nota1, 0)) / 4 AS media_final
+            (
+                COALESCE(n1.media, 0) + 
+                COALESCE(n2.media, 0) + 
+                COALESCE(n3.media, 0) + 
+                COALESCE(n4.media, 0)
+            ) / 4 AS media_final
         FROM aluno a
         LEFT JOIN notas n1 ON a.id_aluno = n1.aluno_nota AND n1.bimestre_nota = 1 AND n1.disciplina_nota = ?
         LEFT JOIN notas n2 ON a.id_aluno = n2.aluno_nota AND n2.bimestre_nota = 2 AND n2.disciplina_nota = ?
@@ -67,12 +82,10 @@ function atualizar_notas_finais($sala_id, $disciplina_id) {
     $stmt->execute();
     $result = $stmt->get_result();
 
-    // Atualiza a média e a situação de cada aluno
     while ($row = $result->fetch_assoc()) {
-        $media_final = $row['media_final'];
-        $situacao = ($media_final >= 6) ? 2 : 3; // 2 para Aprovado, 3 para Reprovado
+        $media_final = round($row['media_final'], 2);
+        $situacao = ($media_final >= 6) ? 2 : 3;
 
-        // Atualiza a situação do aluno na tabela mf_aluno
         $update_query = "
             UPDATE mf_aluno
             SET situacao_mf = ?, media_final = ?
