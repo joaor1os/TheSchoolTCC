@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 <div class="form-group">
                     <label for="data_nascimento_aluno">Data de Nascimento:</label>
-                    <input type="date" id="data_nascimento_aluno" name="data_nascimento_aluno" class="form-control" required>
+                    <input type="date" min="1910-01-01" max="2019-12-31"  id="data_nascimento_aluno" name="data_nascimento_aluno" class="form-control" required>
                 </div>
 
                 <div class="form-group">

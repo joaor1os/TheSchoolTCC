@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <div class="mb-3">
                 <label for="data_nascimento_funcionario" class="form-label">Data de Nascimento:</label>
-                <input type="date" class="form-control" id="data_nascimento_funcionario" name="data_nascimento_funcionario" required>
+                <input type="date" min="1910-01-01" max="2019-12-31"  class="form-control" id="data_nascimento_funcionario" name="data_nascimento_funcionario" required>
             </div>
 
             <div class="mb-3">
