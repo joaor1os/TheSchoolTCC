@@ -49,11 +49,11 @@ class Aluno {
     public function getSenha() { return $this->senha; }
     public function setSenha($senha) { $this->senha = $senha; }
 
-    // Verificação se o CPF já existe no banco de dados
+
     private function cpfExists() {
         $query = "SELECT cpf_aluno FROM " . $this->table_name . " WHERE cpf_aluno = ? LIMIT 1";
         $stmt = $this->conn->prepare($query);
-        $cpf = $this->getCpfAluno(); // Pega o valor do CPF
+        $cpf = $this->getCpfAluno();
         $stmt->bind_param("s", $cpf);
         $stmt->execute();
         $stmt->store_result();
@@ -61,11 +61,11 @@ class Aluno {
         return $stmt->num_rows > 0;
     }
 
-    // Verificação se o e-mail já existe no banco de dados
+
     private function emailExists() {
         $query = "SELECT email FROM " . $this->table_name . " WHERE email = ? LIMIT 1";
         $stmt = $this->conn->prepare($query);
-        $email = $this->getEmail(); // Pega o valor do email
+        $email = $this->getEmail();
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $stmt->store_result();
@@ -73,15 +73,13 @@ class Aluno {
         return $stmt->num_rows > 0;
     }
 
-    // Método para cadastrar o aluno
+    // Cadastrar o aluno
     public function cadastrar() {
-        // Verifica se o CPF já está cadastrado
         if ($this->cpfExists()) {
             echo "Erro: O CPF já está cadastrado.";
             return false;
         }
 
-        // Verifica se o email já está cadastrado
         if ($this->emailExists()) {
             echo "Erro: O e-mail já está cadastrado.";
             return false;
@@ -100,7 +98,6 @@ class Aluno {
         $email = $this->getEmail();
         $senha_criptografada = password_hash($this->getSenha(), PASSWORD_DEFAULT);
 
-        // Passar variáveis para o bind_param
         $stmt->bind_param("ssssssss", 
             $cpf_aluno, 
             $nome_aluno, 
@@ -176,13 +173,21 @@ class Aluno {
     }
 
 
-    // Método para atualizar aluno
+    private function sendEmail() {
+        $subject = 'Cadastro de Aluno';
+        $body = 'Sua conta foi criada com sucesso. Sua senha é: ' . $this->getSenha();
+        sendEmail($this->getEmail(), $subject, $body);
+    }
+
+
     public function atualizar($id_aluno) {
+
+        $emailAtual = $this->buscarEmailPorId($id_aluno);
+        
         $query = "UPDATE " . $this->table_name . " SET nome_aluno = ?, cpf_aluno = ?, data_nascimento_aluno = ?, sexo_aluno = ?, situacao_aluno = ?, contato_aluno = ?, email = ? WHERE id_aluno = ?";
         
         $stmt = $this->conn->prepare($query);
         
-        // Binding dos parâmetros
         $stmt->bind_param(
             'sssssssi',
             $this->nome_aluno,
@@ -195,32 +200,67 @@ class Aluno {
             $id_aluno
         );
         
-        return $stmt->execute();
+        if ($stmt->execute()) {
+            if ($emailAtual !== $this->email) {
+
+                $novaSenha = $this->gerarNovaSenha();
+                $senhaCriptografada = password_hash($novaSenha, PASSWORD_DEFAULT);
+
+                $querySenha = "UPDATE " . $this->table_name . " SET senha = ? WHERE id_aluno = ?";
+                $stmtSenha = $this->conn->prepare($querySenha);
+                $stmtSenha->bind_param("si", $senhaCriptografada, $id_aluno);
+                $stmtSenha->execute();
+
+                $this->sendEmailNovaSenha($novaSenha);
+            }
+
+            return true;
+        } else {
+            echo "Erro ao atualizar aluno.";
+            return false;
+        }
     }
 
-    // Método para deletar aluno
-    public function deletar($id_aluno) {
-        $query = "DELETE FROM " . $this->table_name . " WHERE id_aluno = ?";
+    private function buscarEmailPorId($id_aluno) {
+        $query = "SELECT email FROM " . $this->table_name . " WHERE id_aluno = ? LIMIT 1";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param('i', $id_aluno); // Assume que id_aluno é um inteiro
+        $stmt->bind_param("i", $id_aluno);
+        $stmt->execute();
+        $result = $stmt->get_result();
         
-        return $stmt->execute();
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row['email'];
+        }
+        
+        return null;
     }
 
-    // Função para enviar o e-mail
-    private function sendEmail() {
-        $subject = 'Cadastro de Aluno';
-        $body = 'Sua conta foi criada com sucesso. Sua senha é: ' . $this->getSenha();
+    private function gerarNovaSenha($tamanho = 4) {
+        $caracteres = '0123456789';
+        $novaSenha = '';
+        for ($i = 0; $i < $tamanho; $i++) {
+            $novaSenha .= $caracteres[random_int(0, strlen($caracteres) - 1)];
+        }
+        return $novaSenha;
+    }
+
+    // Função para enviar e-mail com nova senha
+    private function sendEmailNovaSenha($senha) {
+        $subject = 'Atualização de e-mail';
+        $body = 'Seu e-mail foi atualizado com sucesso. Sua nova senha é: ' . $senha;
         sendEmail($this->getEmail(), $subject, $body);
     }
+
+
 
     // Geração da senha automática
     public function generateAndSetPassword() {
         $this->setSenha($this->generatePassword());
     }
 
-    private function generatePassword($length = 16) {
-        return substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, $length);
+    private function generatePassword($length = 4) {
+        return substr(str_shuffle('0123456789'), 0, $length);
     }
 }
 ?>

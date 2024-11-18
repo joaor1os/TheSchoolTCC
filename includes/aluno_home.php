@@ -248,6 +248,23 @@ function exibirNotasSalaInativa($id_sala, $conn, $id_aluno) {
                 </tbody>
             </table>
         <?php endif; ?>
+                <!-- Exibição das Notas de Salas Inativas -->
+        <!-- Salas Inativas -->
+        <h3 class="mt-5">Salas Inativas:</h3>
+        <?php if (!empty($salas_inativas)): ?>
+            <ul class="list-group">
+                <?php foreach ($salas_inativas as $sala): ?>
+                    <li class="list-group-item">
+                        Ano: <?= htmlspecialchars($sala['ano_sala']) ?> | Série: <?= htmlspecialchars($sala['nome_serie']) ?>
+                        <a href="exibir_notas_inativas.php?id_sala=<?= $sala['id_sala'] ?>" class="btn btn-info btn-sm float-end">
+                            Ver Notas
+                        </a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        <?php else: ?>
+            <p>Você não está registrado em nenhuma sala inativa.</p>
+        <?php endif; ?>
     </div>
 </body>
 </html>

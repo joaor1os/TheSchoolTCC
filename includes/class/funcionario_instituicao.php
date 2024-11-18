@@ -263,6 +263,9 @@ class funcionario_instituicao {
     
 
     public function atualizar($id_funcionario) {
+        // Armazena o e-mail atual antes de realizar a atualização
+        $emailAtual = $this->buscarEmailPorId($id_funcionario);
+        
         // Query de atualização, sem incluir tipo_funcionario e senha
         $query = "UPDATE " . $this->table_name . " 
                   SET nome_funcionario = ?, cpf_funcionario = ?, data_nascimento_funcionario = ?, 
@@ -287,9 +290,27 @@ class funcionario_instituicao {
             $this->email,
             $id_funcionario
         );
-    
-        // Execução e verificação de sucesso
+        
+        // Execução da query e verificação de sucesso
         if ($stmt->execute()) {
+            // Verifica se o e-mail foi alterado
+            if ($emailAtual !== $this->email) {
+                // Gera uma nova senha aleatória
+                $novaSenha = $this->generatePassword();
+    
+                // Criptografa a nova senha
+                $senhaCriptografada = password_hash($novaSenha, PASSWORD_DEFAULT);
+    
+                // Atualiza a senha do funcionário no banco de dados
+                $querySenha = "UPDATE " . $this->table_name . " SET senha = ? WHERE id_funcionario = ?";
+                $stmtSenha = $this->conn->prepare($querySenha);
+                $stmtSenha->bind_param("si", $senhaCriptografada, $id_funcionario);
+                $stmtSenha->execute();
+    
+                // Envia o e-mail com a nova senha
+                $this->sendEmailatt($novaSenha);
+            }
+            
             return true;
         } else {
             echo "Erro ao atualizar: " . $stmt->error;
@@ -297,10 +318,29 @@ class funcionario_instituicao {
         }
     }
     
-    
+    // Função para buscar o e-mail atual do funcionário
+    private function buscarEmailPorId($id_funcionario) {
+        $query = "SELECT email FROM " . $this->table_name . " WHERE id_funcionario = ? LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $id_funcionario);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row['email'];
+        }
+        
+        return null;
+    }
 
+    // Função de envio de e-mail com a senha
+    private function sendEmailatt($novaSenha) {
+        $subject = 'Atualização de dados - TheSchool';
+        $body = 'Seus dados foram atualizados com sucesso. Sua senha é: ' . $novaSenha;
+        sendEmail($this->getEmail(), $subject, $body);
+    }
     
-
     public function deletar($id_funcionario) {
         $query = "DELETE FROM " . $this->table_name . " WHERE id_funcionario = ?";
         $stmt = $this->conn->prepare($query);
@@ -318,8 +358,8 @@ class funcionario_instituicao {
         $this->setSenha($this->generatePassword());
     }
 
-    private function generatePassword($length = 8) {
-        return substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, $length);
+    private function generatePassword($length = 4) {
+        return substr(str_shuffle('0123456789'), 0, $length);
     }
 }
 
