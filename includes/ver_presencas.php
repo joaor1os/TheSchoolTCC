@@ -37,51 +37,50 @@ if (isset($_SESSION['user_id']) && $_SESSION['user_type'] === 'professor') {
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Presenças da Aula</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 8px;
-            text-align: center;
-            border: 1px solid #ddd;
-        }
-        .btn {
-            padding: 5px 10px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        .btn:hover {
-            background-color: #45a049;
-        }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/Presenca/viewPresenca.css">
 </head>
-<body>
-    <h1>Presenças da Aula</h1>
+<body class="bg-light">
 
-    <table>
-        <tr>
-            <th>Nome do Aluno</th>
-            <th>Presença</th>
-            <th>Editar</th>
-        </tr>
-        <?php while ($presenca = $result_presencas->fetch_assoc()) : ?>
-            <tr>
-                <td><?php echo $presenca['nome_aluno']; ?></td>
-                <td>
-                    <?php echo $presenca['aula_presenca'] ? $presenca['aula_presenca'] : 'Nenhuma presença registrada'; ?>
-                </td>
-                <td>
-                    <a href="editar_presenca.php?presenca_id=<?php echo $presenca['id_presenca']; ?>&aula_id=<?php echo $aula_id; ?>&sala_id=<?php echo $sala_id; ?>" class="btn">Editar Presença</a>
-                </td>
-            </tr>
-        <?php endwhile; ?>
-    </table>
 
-    <a href="visualizar_aulas.php?sala_id=<?php echo $sala_id; ?>">Voltar para Aulas</a>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4 fade-in">Presenças da Aula</h1>
+
+ 
+        <div class="card shadow-sm mb-4 slide-in">
+            <div class="card-header bg-info text-white">
+                <h4 class="mb-0">Lista de Presenças</h4>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped table-bordered">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Nome do Aluno</th>
+                            <th>Presença</th>
+                            <th>Editar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php while ($presenca = $result_presencas->fetch_assoc()) : ?>
+                            <tr>
+                                <td><?= htmlspecialchars($presenca['nome_aluno']); ?></td>
+                                <td>
+                                    <?php echo $presenca['aula_presenca'] ? $presenca['aula_presenca'] : 'Nenhuma presença registrada'; ?>
+                                </td>
+                                <td>
+                                    <a href="editar_presenca.php?presenca_id=<?php echo $presenca['id_presenca']; ?>&aula_id=<?php echo $aula_id; ?>&sala_id=<?php echo $sala_id; ?>" class="btn btn-primary btn-sm">Editar Presença</a>
+                                </td>
+                            </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <a href="visualizar_aulas.php?sala_id=<?php echo $sala_id; ?>" class="btn btn-secondary">Voltar para Aulas</a>
+    </div>
 </body>
 </html>
+

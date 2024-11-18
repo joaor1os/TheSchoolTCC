@@ -62,22 +62,43 @@ if (isset($_SESSION['user_id']) && $_SESSION['user_type'] === 'professor') {
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Presença</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/Presenca/editPresenca.css">
 </head>
-<body>
-    <h1>Editar Presença de <?php echo $presenca['nome_aluno']; ?></h1>
+<body class="bg-light">
 
-    <form method="POST">
-        <label>
-            <input type="radio" name="presenca" value="P" <?php echo ($presenca['aula_presenca'] == 'P') ? 'checked' : ''; ?>> Presente
-        </label>
-        <label>
-            <input type="radio" name="presenca" value="A" <?php echo ($presenca['aula_presenca'] == 'A') ? 'checked' : ''; ?>> Ausente
-        </label>
-        <br><br>
-        <button type="submit">Salvar Alteração</button>
-    </form>
+  
+    <div class="container mt-5 pt-5">
+        <h1 class="text-center mb-4 fade-in">Editar Presença de <?= htmlspecialchars($presenca['nome_aluno']); ?></h1>
 
-    <a href="ver_presencas.php?aula_id=<?php echo $aula_id; ?>&sala_id=<?php echo $sala_id; ?>">Voltar para Listagem</a>
+        <div class="card shadow-sm mb-4 slide-in">
+            <div class="card-header bg-info text-white">
+                <h4 class="mb-0">Editar Status de Presença</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="form-check">
+                        <input type="radio" name="presenca" value="P" class="form-check-input" 
+                               <?php echo ($presenca['aula_presenca'] == 'P') ? 'checked' : ''; ?>>
+                        <label class="form-check-label">Presente</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" name="presenca" value="A" class="form-check-input" 
+                               <?php echo ($presenca['aula_presenca'] == 'A') ? 'checked' : ''; ?>>
+                        <label class="form-check-label">Ausente</label>
+                    </div>
+                    <br><br>
+                    <button type="submit" class="btn btn-primary w-100">Salvar Alteração</button>
+                </form>
+            </div>
+        </div>
+
+    
+        <a href="ver_presencas.php?aula_id=<?php echo $aula_id; ?>&sala_id=<?php echo $sala_id; ?>" 
+           class="btn btn-secondary btn-sm">Voltar para Listagem</a>
+    </div>
+
 </body>
 </html>

@@ -52,13 +52,24 @@ $database->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Ano Letivo</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/room/editYear.css">
 </head>
 <body>
-    <h1>Alterar Ano Letivo</h1>
-    <form method="POST">
-        <label for="ano_letivo">Ano Letivo:</label>
-        <input type="number" name="ano_letivo" value="<?php echo $ano_atual; ?>" required>
-        <button type="submit" name="alterar_ano">Alterar</button>
-    </form>
+    <div class="container mt-5">
+        <h1 class="text-center text-primary">Alterar Ano Letivo</h1>
+        <form method="POST" class="mt-4 p-4 shadow bg-white rounded">
+            <div class="mb-3">
+                <label for="ano_letivo" class="form-label">Ano Letivo:</label>
+                <input type="number" id="ano_letivo" name="ano_letivo" value="<?php echo $ano_atual; ?>" class="form-control" required>
+            </div>
+            <div class="d-flex justify-content-between mt-3">
+                <button type="submit" name="alterar_ano" class="btn btn-success">Alterar</button>
+                <a href="javascript:history.back()" class="btn btn-secondary">Voltar</a>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

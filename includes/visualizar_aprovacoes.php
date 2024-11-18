@@ -39,16 +39,17 @@ if ($sala_id) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visualizar Aprovações</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/room/viewAprove.css">
 </head>
 <body>
     <div class="container mt-5">
-        <h1>Resultados Finais dos Alunos</h1>
+        <h1 class="text-center">Resultados Finais dos Alunos</h1>
 
         <?php if (isset($error_message)): ?>
-            <p class="alert alert-danger"><?php echo $error_message; ?></p>
+            <div class="alert alert-danger"><?= $error_message; ?></div>
         <?php elseif (isset($result) && $result->num_rows > 0): ?>
-            <table class="table table-bordered">
-                <thead>
+            <table class="table table-hover table-bordered mt-4 shadow">
+                <thead class="table-success">
                     <tr>
                         <th>ID do Aluno</th>
                         <th>Nome do Aluno</th>
@@ -59,11 +60,11 @@ if ($sala_id) {
                 <tbody>
                     <?php while ($row = $result->fetch_assoc()): ?>
                         <tr>
-                            <td><?php echo $row['id_aluno']; ?></td>
-                            <td><?php echo $row['nome_aluno']; ?></td>
-                            <td><?php echo $row['situacao_final']; ?></td>
+                            <td><?= $row['id_aluno']; ?></td>
+                            <td><?= $row['nome_aluno']; ?></td>
+                            <td><?= $row['situacao_final']; ?></td>
                             <td>
-                                <?php echo $row['situacao_final'] === 'Reprovado' 
+                                <?= $row['situacao_final'] === 'Reprovado' 
                                     ? $row['disciplinas_reprovadas'] 
                                     : 'Nenhuma'; ?>
                             </td>
@@ -72,12 +73,15 @@ if ($sala_id) {
                 </tbody>
             </table>
         <?php else: ?>
-            <p class="alert alert-warning">Nenhum resultado encontrado para esta sala.</p>
+            <div class="alert alert-warning mt-4">Nenhum resultado encontrado para esta sala.</div>
         <?php endif; ?>
 
-        <a href="javascript:history.back()" class="btn btn-secondary">Voltar</a>
+        <div class="text-center mt-4">
+            <a href="javascript:history.back()" class="btn btn-secondary">Voltar</a>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+

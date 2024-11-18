@@ -71,69 +71,89 @@ if ($bimestre) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerenciar Notas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/Professor/gerenciarBimestre.css.css"> 
 </head>
-<body>
-    <div class="container mt-4">
-        <h2>Gerenciar Notas - Série <?php echo $nome_serie; ?> - Disciplina: <?php echo $nome_disciplina; ?></h2>
+<body class="bg-light">
 
-        <!-- Formulário de pesquisa por bimestre -->
-        <form action="gerenciar_notas.php" method="get">
-            <input type="hidden" name="sala_id" value="<?php echo $sala_id; ?>">
-            <input type="hidden" name="disciplina_id" value="<?php echo $disciplina_id; ?>">
 
-            <div class="mb-3">
-                <label for="bimestre" class="form-label">Selecione o Bimestre:</label>
-                <select name="bimestre" id="bimestre" class="form-select" required>
-                    <option value="">Selecione um Bimestre</option>
-                    <?php while ($bimestre_option = $result_bimestres->fetch_assoc()) : ?>
-                        <option value="<?php echo $bimestre_option['id_bimestre']; ?>" <?php echo isset($bimestre) && $bimestre == $bimestre_option['id_bimestre'] ? 'selected' : ''; ?>>
-                            <?php echo $bimestre_option['nome_bimestre']; ?>
-                        </option>
-                    <?php endwhile; ?>
-                </select>
+ 
+    <div class="container mt-5 pt-5">
+        <h2 class="text-center mb-4 fade-in">Gerenciar Notas - Série <?php echo $nome_serie; ?> - Disciplina: <?php echo $nome_disciplina; ?></h2>
+
+    
+        <div class="card shadow-sm mb-4 slide-in">
+            <div class="card-header bg-info text-white">
+                <h4 class="mb-0">Selecione o Bimestre para Gerenciamento</h4>
             </div>
-            <button type="submit" class="btn btn-primary">Pesquisar</button>
-        </form>
+            <div class="card-body">
+                <form action="gerenciar_notas.php" method="get">
+                    <input type="hidden" name="sala_id" value="<?php echo $sala_id; ?>">
+                    <input type="hidden" name="disciplina_id" value="<?php echo $disciplina_id; ?>">
 
-        <!-- Exibição das Notas se o bimestre for selecionado -->
+                    <div class="mb-3">
+                        <label for="bimestre" class="form-label">Selecione o Bimestre:</label>
+                        <select name="bimestre" id="bimestre" class="form-select" required>
+                            <option value="">Selecione um Bimestre</option>
+                            <?php while ($bimestre_option = $result_bimestres->fetch_assoc()) : ?>
+                                <option value="<?php echo $bimestre_option['id_bimestre']; ?>" <?php echo isset($bimestre) && $bimestre == $bimestre_option['id_bimestre'] ? 'selected' : ''; ?>>
+                                    <?php echo $bimestre_option['nome_bimestre']; ?>
+                                </option>
+                            <?php endwhile; ?>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Pesquisar</button>
+                </form>
+            </div>
+        </div>
+
+   
         <?php if ($bimestre && $result_notas->num_rows > 0): ?>
-            <table class="table mt-4">
-                <thead>
-                    <tr>
-                        <th>Aluno</th>
-                        <th>Nota 1</th>
-                        <th>Nota 2</th>
-                        <th>Nota 3</th>
-                        <th>Média</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while ($nota = $result_notas->fetch_assoc()) : ?>
-                        <form action="editar_notas.php" method="post">
-                            <input type="hidden" name="id_nota" value="<?php echo $nota['id_nota']; ?>">
-                            <input type="hidden" name="sala_id" value="<?php echo $sala_id; ?>">
-                            <input type="hidden" name="disciplina_id" value="<?php echo $disciplina_id; ?>">
-                            <input type="hidden" name="bimestre" value="<?php echo $nota['bimestre_nota']; ?>">
-
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">Notas dos Alunos</h4>
+                </div>
+                <div class="card-body">
+                    <table class="table mt-4">
+                        <thead>
                             <tr>
-                                <td><?php echo $nota['nome_aluno']; ?></td>
-                                <td><input type="number" step="0.1" name="nota1" value="<?php echo $nota['nota1']; ?>" class="form-control" required></td>
-                                <td><input type="number" step="0.1" name="nota2" value="<?php echo $nota['nota2']; ?>" class="form-control" required></td>
-                                <td><input type="number" step="0.1" name="nota3" value="<?php echo $nota['nota3']; ?>" class="form-control" required></td>
-                                <td><?php echo number_format($nota['media'], 2); ?></td>
-                                <td><button type="submit" class="btn btn-warning">Editar</button></td>
+                                <th>Aluno</th>
+                                <th>Nota 1</th>
+                                <th>Nota 2</th>
+                                <th>Nota 3</th>
+                                <th>Média</th>
+                                <th>Ações</th>
                             </tr>
-                        </form>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
+                        </thead>
+                        <tbody>
+                            <?php while ($nota = $result_notas->fetch_assoc()) : ?>
+                                <form action="editar_notas.php" method="post">
+                                    <input type="hidden" name="id_nota" value="<?php echo $nota['id_nota']; ?>">
+                                    <input type="hidden" name="sala_id" value="<?php echo $sala_id; ?>">
+                                    <input type="hidden" name="disciplina_id" value="<?php echo $disciplina_id; ?>">
+                                    <input type="hidden" name="bimestre" value="<?php echo $nota['bimestre_nota']; ?>">
+
+                                    <tr>
+                                        <td><?php echo $nota['nome_aluno']; ?></td>
+                                        <td><input type="number" step="0.1" name="nota1" value="<?php echo $nota['nota1']; ?>" class="form-control" required></td>
+                                        <td><input type="number" step="0.1" name="nota2" value="<?php echo $nota['nota2']; ?>" class="form-control" required></td>
+                                        <td><input type="number" step="0.1" name="nota3" value="<?php echo $nota['nota3']; ?>" class="form-control" required></td>
+                                        <td><?php echo number_format($nota['media'], 2); ?></td>
+                                        <td><button type="submit" class="btn btn-warning">Editar</button></td>
+                                    </tr>
+                                </form>
+                            <?php endwhile; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         <?php else: ?>
             <p>Selecione um Bimestre</p>
         <?php endif; ?>
+
+        <div class="text-center mt-3">
+            <a href="../includes/professor_home.php" class="btn btn-outline-primary">Voltar</a>
+        </div>
     </div>
-    <div class="text-center mt-3">
-        <a href="../includes/professor_home.php" class="btn btn-outline-primary">Voltar</a>
-    </div>
+
 </body>
 </html>

@@ -55,7 +55,14 @@ if (isset($_SESSION['user_id']) && $_SESSION['user_type'] === 'professor') {
     <link rel="stylesheet" href="../css/Professor/professorHome.css">
 </head>
 <body>
-
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4 fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Painel do Administrador</a>
+            <div class="d-flex">
+                <a href="../includes/logout.php" class="btn btn-danger">Logout</a>
+            </div>
+        </div>
+    </nav>
     <div class="container">
         <h1>Salas Ativas do Professor</h1>
 
@@ -84,7 +91,7 @@ if (isset($_SESSION['user_id']) && $_SESSION['user_type'] === 'professor') {
             <p class="alert alert-warning">Nenhuma sala ativa encontrada.</p>
         <?php endif; ?>
 
-        <a href="../index.php" class="btn btn-secondary">Voltar para a Home</a>
+        
     </div>
 
     <script src="../js/confirmedClass.js"></script>

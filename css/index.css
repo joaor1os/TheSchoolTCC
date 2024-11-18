@@ -1,4 +1,4 @@
-/* ================== Reset ================== */
+
 * {
     margin: 0;
     padding: 0;
@@ -6,22 +6,20 @@
     font-family: 'Roboto', sans-serif;
 }
 
-/* ================== Corpo e Layout ================== */
 body {
-    background-color: #f5f5f5; /* Cor neutra e suave para o fundo */
+    background-color: #f5f5f5; 
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     font-size: 16px;
-    color: #333; /* Texto com cor mais escura para contraste */
+    color: #333; 
 }
 
-/* ================== Header ================== */
 header {
     width: 100%;
     padding: 30px 20px;
-    background-color: #f6f6f6; /* Verde moderno para um toque vibrante */
+    background-color: #f6f6f6; 
     color: white;
     text-align: center;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -39,10 +37,10 @@ header h1 {
 
 header p {
     font-size: 1.2rem;
-    color: #e0e0e0; /* Texto secundário mais suave */
+    color: #e0e0e0; 
 }
 
-/* ================== Seção de Carrossel ================== */
+
 .carousel-inner {
     max-height: 400px;
     overflow: hidden;
@@ -58,7 +56,7 @@ header p {
     background-color: #fafafa;
 }
 
-/* ================== Seção de Últimas Notícias ================== */
+
 .latest-news {
     background-color: white;
     padding: 40px;
@@ -95,7 +93,7 @@ header p {
     margin-top: 10px;
 }
 
-/* ================== Seção Como Chegar ================== */
+
 .how-to-get-there {
     background-color: white;
     padding: 40px;
@@ -119,9 +117,8 @@ header p {
     text-align: center;
 }
 
-/* ================== Rodapé ================== */
 footer {
-    background-color: #333; /* Cor escura para contraste com o restante da página */
+    background-color: #333; 
     color: white;
     text-align: center;
     padding: 30px 20px;
@@ -133,9 +130,8 @@ footer p {
     color: #e0e0e0;
 }
 
-/* ================== Estilo de Botões ================== */
 button {
-    background-color: #4CAF50; /* Verde vibrante */
+    background-color: #4CAF50; 
     color: white;
     padding: 15px 30px;
     font-size: 1.1rem;
@@ -149,10 +145,9 @@ button {
 }
 
 button:hover {
-    background-color: #45a049; /* Tom mais escuro do verde */
+    background-color: #45a049; 
 }
 
-/* ================== Responsividade ================== */
 @media (max-width: 768px) {
     header h1 {
         font-size: 2rem;
@@ -201,14 +196,14 @@ button:hover {
         padding: 10px 20px;
     }
 }
-/* Estilo para ajustar a imagem do cabeçalho */
+
 header .logo {
-    max-width: 100px; /* Limita a largura da imagem */
-    height: auto; /* Mantém a proporção da imagem */
+    max-width: 100px; 
+    height: auto; 
 }
-/* Ajustar imagens dentro do carrossel */
+
 .carousel-inner img {
-    width: 100%; /* Faz a imagem ocupar toda a largura do carrossel */
+    width: 100%; 
     height: auto; /* Mantém a proporção da imagem */
-    object-fit: cover; /* A imagem cobre completamente a área sem distorcer */
+    object-fit: cover; 
 }

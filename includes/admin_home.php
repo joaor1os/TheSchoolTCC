@@ -18,6 +18,15 @@ if (!isset($_SESSION['user_id'])) {
     <link rel="stylesheet" href="../css/adminpainel/adminHome.css">
 </head>
 <body>
+    
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4 fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Painel do Administrador</a>
+            <div class="d-flex">
+                <a href="../includes/logout.php" class="btn btn-danger">Logout</a>
+            </div>
+        </div>
+    </nav>
 
     <div class="container">
         <h1 class="text-center text-primary my-5">Bem-vindo, Administrador!</h1>

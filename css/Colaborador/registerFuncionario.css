@@ -1,6 +1,6 @@
 body {
     background-color: #f7f7f7;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 h1 {
@@ -75,7 +75,7 @@ h1 {
     color: #0056b3;
 }
 
-/* Animações */
+
 @keyframes fadeIn {
     from {
         opacity: 0;

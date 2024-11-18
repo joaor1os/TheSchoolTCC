@@ -92,38 +92,44 @@ function atualizar_notas_finais($sala_id, $disciplina_id) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerenciar Notas Finais</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/Professor/professorHome.css">
+    <link rel="stylesheet" href="../css/Professor/gerenciarNotaFinal.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Notas Finais dos Alunos</h1>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Notas Finais dos Alunos</h1>
 
         <?php if (isset($result) && $result->num_rows > 0): ?>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>ID do Aluno</th>
-                        <th>Nome do Aluno</th>
-                        <th>Média Final</th>
-                        <th>Situação</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while ($row = $result->fetch_assoc()): ?>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped fade-in">
+                    <thead class="table-dark">
                         <tr>
-                            <td><?php echo $row['id_aluno']; ?></td>
-                            <td><?php echo $row['nome_aluno']; ?></td>
-                            <td><?php echo number_format($row['media_final'], 2, ',', '.'); ?></td>
-                            <td><?php echo $row['situacao']; ?></td>
+                            <th>ID do Aluno</th>
+                            <th>Nome do Aluno</th>
+                            <th>Média Final</th>
+                            <th>Situação</th>
                         </tr>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <?php while ($row = $result->fetch_assoc()): ?>
+                            <tr>
+                                <td><?php echo $row['id_aluno']; ?></td>
+                                <td><?php echo $row['nome_aluno']; ?></td>
+                                <td><?php echo number_format($row['media_final'], 2, ',', '.'); ?></td>
+                                <td><?php echo $row['situacao']; ?></td>
+                            </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+            </div>
         <?php else: ?>
-            <p class="alert alert-warning">Nenhum aluno encontrado ou as notas não foram inseridas.</p>
+            <div class="alert alert-warning fade-in">
+                Nenhum aluno encontrado ou as notas não foram inseridas.
+            </div>
         <?php endif; ?>
 
-        <a href="professor_home.php" class="btn btn-secondary">Voltar para a Home</a>
+        <div class="text-center mt-4">
+            <a href="professor_home.php" class="btn btn-secondary fade-in">Voltar para a Home</a>
+        </div>
     </div>
 
     <script src="../js/confirmedClass.js"></script>

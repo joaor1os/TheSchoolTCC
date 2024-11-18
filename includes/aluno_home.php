@@ -161,23 +161,22 @@ function exibirNotasSalaInativa($id_sala, $conn, $id_aluno) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notas e Presenças</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .text-green {
-            color: green;
-            font-weight: bold;
-        }
-        .text-red {
-            color: red;
-            font-weight: bold;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4 fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Painel do Aluno</a>
+            <div class="d-flex">
+                <a href="../includes/logout.php" class="btn btn-danger">Logout</a>
+            </div>
+        </div>
+    </nav>
     <div class="container mt-5">
-        <h1 class="text-center mb-4">Área do Aluno</h1>
+        <h1 class="text-center mb-4 fade-in">Área do Aluno</h1>
         
         <!-- Formulário de Filtro -->
-        <form method="GET" class="mb-4">
+        <form method="GET" class="mb-4 slide-in">
             <div class="row align-items-end">
                 <div class="col-md-8">
                     <label for="disciplina" class="form-label">Filtrar por Disciplina</label>
@@ -196,21 +195,29 @@ function exibirNotasSalaInativa($id_sala, $conn, $id_aluno) {
             </div>
         </form>
 
-        <!-- Exibição da Porcentagem de Presença -->
-        <div class="row mb-4">
+        <!-- Exibição da Porcentagem de Presença com Card -->
+        <div class="row mb-4 fade-in">
             <div class="col">
-                <h4>Presença: <?= number_format($percentual_presenca, 2) ?>%</h4>
-                <p>Aulas presentes: <?= $aulas_presentes ?> / <?= $total_aulas ?></p>
+                <div class="card shadow-sm">
+                    <div class="card-header bg-info text-white">
+                        <h4 class="mb-0">Presença</h4>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Porcentagem de Presença: <span class="fw-bold"><?= number_format($percentual_presenca, 2) ?>%</span></h5>
+                        <p class="card-text">Aulas presentes: <?= $aulas_presentes ?> / <?= $total_aulas ?></p>
+                        <?php if ($percentual_presenca < 75): ?>
+                            <div class="alert alert-warning mt-3">
+                                Atenção: Sua presença está abaixo de 75%! Procure melhorar sua frequência.
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Tabela de Notas -->
         <?php if (!empty($notas)): ?>
-            <?php 
-                $media_total = 0; 
-                $quantidade_medias = 0; 
-            ?>
-            <table class="table table-striped table-bordered">
+            <table class="table table-striped table-bordered slide-in">
                 <thead class="table-primary">
                     <tr>
                         <th>Ano</th>
@@ -237,36 +244,9 @@ function exibirNotasSalaInativa($id_sala, $conn, $id_aluno) {
                                 <?= number_format($nota['media'], 2) ?>
                             </td>
                         </tr>
-                        <?php 
-                            $media_total += $nota['media'];
-                            $quantidade_medias++;
-                        ?>
                     <?php endforeach; ?>
                 </tbody>
             </table>
-            <?php if ($quantidade_medias > 0): ?>
-                <h4 class="text-center">
-                    Média Geral: <span class="<?= ($media_total / $quantidade_medias >= 6) ? 'text-green' : 'text-red' ?>"><?= number_format($media_total / $quantidade_medias, 2) ?></span>
-                </h4>
-            <?php endif; ?>
-        <?php endif; ?>
-
-        <!-- Exibição das Notas de Salas Inativas -->
-        <!-- Salas Inativas -->
-        <h3 class="mt-5">Salas Inativas:</h3>
-        <?php if (!empty($salas_inativas)): ?>
-            <ul class="list-group">
-                <?php foreach ($salas_inativas as $sala): ?>
-                    <li class="list-group-item">
-                        Ano: <?= htmlspecialchars($sala['ano_sala']) ?> | Série: <?= htmlspecialchars($sala['nome_serie']) ?>
-                        <a href="exibir_notas_inativas.php?id_sala=<?= $sala['id_sala'] ?>" class="btn btn-info btn-sm float-end">
-                            Ver Notas
-                        </a>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        <?php else: ?>
-            <p>Você não está registrado em nenhuma sala inativa.</p>
         <?php endif; ?>
     </div>
 </body>
