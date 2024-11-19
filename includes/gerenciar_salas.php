@@ -121,7 +121,7 @@ $salasAtivas = $sala->listarSalasAtivas();
                                 <form method="POST" action="editar_sala.php" style="display:inline;">
                                     <input type="hidden" name="id_sala" value="<?= $salaBuscada['id_sala']; ?>">
                                     <button type="submit" class="btn btn-warning btn-sm">Editar</button>
-                                    <a href="../includes/visualizar_sala_aluno.php?id_sala=<?= $salaAtiva['id_sala']; ?>" class="btn btn-info btn-sm">Visualizar Alunos</a>
+                                    <a href="../includes/visualizar_sala_aluno.php?id_sala=<?= $salaBuscada['id_sala']; ?>" class="btn btn-info btn-sm">Visualizar Alunos</a>
                                 </form>
                             </td>
                         </tr>

@@ -57,7 +57,7 @@ if (isset($_SESSION['user_id']) && $_SESSION['user_type'] === 'professor') {
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4 fixed-top">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Painel do Administrador</a>
+            <a class="navbar-brand" href="#">Painel do Professor</a>
             <div class="d-flex">
                 <a href="../includes/logout.php" class="btn btn-danger">Logout</a>
             </div>

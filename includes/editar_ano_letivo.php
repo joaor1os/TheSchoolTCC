@@ -16,8 +16,6 @@ if (isset($_POST['alterar_ano'])) {
     $stmt->bind_param("i", $novo_ano);
 
     if ($stmt->execute()) {
-        echo "Ano letivo atualizado com sucesso!<br>";
-
         // Desativa as salas com ano diferente do novo ano letivo
         $sql_update_salas = "UPDATE salas SET ativa_sala = 2 WHERE ano_sala != ?";
         $stmt_update_salas = $db->prepare($sql_update_salas);
@@ -30,7 +28,12 @@ if (isset($_POST['alterar_ano'])) {
         $stmt_activate_salas->bind_param("i", $novo_ano);
         $stmt_activate_salas->execute();
 
-        echo "Salas do ano letivo anterior desativadas e salas do ano letivo atual ativadas.";
+        $msg = "Ano letivo atualizado! Salas do ano letivo anterior desativadas!";
+        echo "<script>
+                alert('$msg');
+                window.location.href = 'gerenciar_salas.php';
+              </script>";
+              
     } else {
         echo "Erro ao atualizar ano letivo.";
     }
