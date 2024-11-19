@@ -24,24 +24,19 @@ if (isset($_SESSION['user_id']) && $_SESSION['user_type'] === 'professor') {
                 mfa.media_final AS media_final,
                 mf.nome_st_mf AS situacao
             FROM aluno a
+            JOIN sala_alunos sa ON a.id_aluno = sa.aluno_sa AND sa.ativo_sa = 1
             LEFT JOIN notas n1 ON a.id_aluno = n1.aluno_nota AND n1.bimestre_nota = 1 AND n1.disciplina_nota = ?
             LEFT JOIN notas n2 ON a.id_aluno = n2.aluno_nota AND n2.bimestre_nota = 2 AND n2.disciplina_nota = ?
             LEFT JOIN notas n3 ON a.id_aluno = n3.aluno_nota AND n3.bimestre_nota = 3 AND n3.disciplina_nota = ?
             LEFT JOIN notas n4 ON a.id_aluno = n4.aluno_nota AND n4.bimestre_nota = 4 AND n4.disciplina_nota = ?
             LEFT JOIN mf_aluno mfa ON a.id_aluno = mfa.aluno_mf AND mfa.sala_mf = ? AND mfa.disciplina_mf = ?
             LEFT JOIN mf_situacao mf ON mfa.situacao_mf = mf.id_st_mf
-            WHERE EXISTS (
-                SELECT 1 
-                FROM mf_aluno 
-                WHERE mf_aluno.aluno_mf = a.id_aluno 
-                  AND mf_aluno.sala_mf = ? 
-                  AND mf_aluno.disciplina_mf = ?
-            )
+            WHERE sa.sala_sa = ?
             ORDER BY a.nome_aluno;
         ";
 
         $stmt = $conn->prepare($query);
-        $stmt->bind_param("iiiiiiii", $disciplina_id, $disciplina_id, $disciplina_id, $disciplina_id, $sala_id, $disciplina_id, $sala_id, $disciplina_id);
+        $stmt->bind_param("iiiiiii", $disciplina_id, $disciplina_id, $disciplina_id, $disciplina_id, $sala_id, $disciplina_id, $sala_id);
         $stmt->execute();
         $result = $stmt->get_result();
     }
@@ -63,22 +58,17 @@ function atualizar_notas_finais($sala_id, $disciplina_id) {
                 COALESCE(n4.media, 0)
             ) / 4 AS media_final
         FROM aluno a
+        JOIN sala_alunos sa ON a.id_aluno = sa.aluno_sa AND sa.ativo_sa = 1
         LEFT JOIN notas n1 ON a.id_aluno = n1.aluno_nota AND n1.bimestre_nota = 1 AND n1.disciplina_nota = ?
         LEFT JOIN notas n2 ON a.id_aluno = n2.aluno_nota AND n2.bimestre_nota = 2 AND n2.disciplina_nota = ?
         LEFT JOIN notas n3 ON a.id_aluno = n3.aluno_nota AND n3.bimestre_nota = 3 AND n3.disciplina_nota = ?
         LEFT JOIN notas n4 ON a.id_aluno = n4.aluno_nota AND n4.bimestre_nota = 4 AND n4.disciplina_nota = ?
-        WHERE EXISTS (
-            SELECT 1 
-            FROM mf_aluno 
-            WHERE mf_aluno.aluno_mf = a.id_aluno 
-              AND mf_aluno.sala_mf = ? 
-              AND mf_aluno.disciplina_mf = ?
-        )
+        WHERE sa.sala_sa = ?
         ORDER BY a.id_aluno;
     ";
 
     $stmt = $conn->prepare($query);
-    $stmt->bind_param("iiiiii", $disciplina_id, $disciplina_id, $disciplina_id, $disciplina_id, $sala_id, $disciplina_id);
+    $stmt->bind_param("iiiii", $disciplina_id, $disciplina_id, $disciplina_id, $disciplina_id, $sala_id);
     $stmt->execute();
     $result = $stmt->get_result();
 
